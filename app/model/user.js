@@ -1,5 +1,6 @@
 let mongoose = require('mongoose');
 let schema = mongoose.Schema;
+
 const UserSchema = new schema({
     firstName: { type: String, required: true },
     lastName: { type: String, required: true },
@@ -7,6 +8,7 @@ const UserSchema = new schema({
     age: { type: Number, required: true },
     sex: { type: String },
     password: { type: String, required: true },
+    skills: [{type: ObjectId, ref: 'skill'}],
     level: String,
     tier: String,
     type: String,

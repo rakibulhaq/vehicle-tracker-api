@@ -5,7 +5,7 @@ let ObjectId = mongoose.Schema.Types.ObjectId;
 const IndustrySubsectionSchema = new Schema({
     name: String,
     description: String,
-    industry: {type: ObjectId, rel : 'industry'}
+    industry: {type: ObjectId, ref : 'industry'}
 });
 
 module.exports.IndustrySubsectionModel = mongoose.model('IndustrySubsection', IndustrySubsectionSchema);
