@@ -3,3 +3,29 @@
  * entry point for the api service
  */
 global.APP_ROOT_PATH = __dirname + '/app/';
+
+require('./config/global_paths');
+
+global.config = require('./config');
+
+const express = require('express');
+const app = express();
+
+const bodyParser = require('body-parser');
+const mongoose = require('mongoose');
+const routes = require(APP_ROUTE_PATH);
+const ValidationManager = require(APP_MANAGER_PATH + 'validation');
+const validationManager = new ValidationManager();
+
+mongoose.Promise = global.Promise;
+mongoose.connect(config.db.MONGO_DB_URL);
+
+app.use(bodyParser.json);
+
+app.use(validationManager.provideDefaultValidator());
+
+app.use('/', routes);
+
+app.listen(global.config.server.PORT, function(){
+    console.log('Api server is running on port: ' + global.config.server.PORT);
+});

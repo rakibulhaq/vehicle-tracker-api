@@ -22,6 +22,7 @@ const UserSchema = new schema({
 UserSchema.methods.toJSON = function () {
     let object = this.object;
     delete object.password;
+    delete object.__v;
     return object;
 };
 
