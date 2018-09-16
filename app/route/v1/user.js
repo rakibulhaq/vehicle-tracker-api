@@ -4,10 +4,10 @@ const UserController = require(APP_CONTROLLER_PATH + 'user');
 
 let userController = new UserController();
 
-router.get('/', userController.get);
+router.get('/', userController.getAll);
 router.get('/:id', userController.getUserInfo);
-router.post('/', userController.post);
-router.delete('/:id', userController.del);
-router.put('/:id', userController.put);
+router.post('/', userController.create);
+router.delete('/:id', userController.remove);
+router.put('/:id', userController.update);
 
 module.exports = router;

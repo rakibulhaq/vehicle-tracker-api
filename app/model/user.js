@@ -1,4 +1,5 @@
 let mongoose = require('mongoose');
+let bcrypt = require('bcrypt');
 let schema = mongoose.Schema;
 
 const UserSchema = new schema({
@@ -33,16 +34,22 @@ UserSchema.virtual('id')
 //password getter and setter, encryption will be added later. TODO
 UserSchema.virtual('password')
     .set(function () {
-        this.password = password;
+        this.password = encryptPassword(password, 10);
     })
     .get(function () {
         return this.password;
     });
 //methods to ecrypt password
-UserSchema.methods.encryptPassword = function(){
-    //TODO
+UserSchema.methods.encryptPassword = function(password , saltRound){
+
+    bcrypt.hash(password, saltRound, function(err, hashedPassword){
+        return hashedPassword;
+    });
 };
-UserSchema.methods.comparePassword = function(){
+UserSchema.methods.comparePassword = function(password){
+    bcrypt.compare(password, this.password, function(err, res){
+        return res;
+    });
 
 };
 

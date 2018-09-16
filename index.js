@@ -15,12 +15,15 @@ const bodyParser = require('body-parser');
 const mongoose = require('mongoose');
 const routes = require(APP_ROUTE_PATH);
 const ValidationManager = require(APP_MANAGER_PATH + 'validation');
+const authManager = require(APP_MANAGER_PATH + 'auth');
 const validationManager = new ValidationManager();
 
 mongoose.Promise = global.Promise;
 mongoose.connect(config.db.MONGO_DB_URL);
 
 app.use(bodyParser.json);
+
+app.use(authManager.providePassport().initialize());
 
 app.use(validationManager.provideDefaultValidator());
 
