@@ -26,7 +26,7 @@ class CredentialsAuthStrategy extends LocalAuthStrategy{
 
             }
 
-            if(!user.checkPassword(password)){
+            if(!user.comparePassword(password)){
                 return done(new UnauthorizedError('Invalid Credentials'), false);
 
             }

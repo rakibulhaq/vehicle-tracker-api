@@ -10,10 +10,10 @@ class UserController extends BaseController{
 
     }
     getUserInfo(req, res , next){
-        let responseManager = this._responseManager;
-        let that = this;
+        //let responseManager = this._responseManager;
+        //let that = this;
         this.authenticate(req, res, next, (token, user)=>{
-            that._userHandler.getUserInfo(req, user, responseManager.getDefaultResponseHandler(res));
+            this._userHandler.getUserInfo(req, user, this._responseManager.getDefaultResponseHandler(res));
         });
     }
     create(req, res){

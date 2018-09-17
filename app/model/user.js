@@ -22,8 +22,8 @@ const UserSchema = new schema({
 });
 
 UserSchema.methods.toJSON = function () {
-    let object = this.object;
-    delete object.password;
+    let object = this.toObject();
+    delete object.hashedPassword;
     delete object.__v;
     return object;
 };
@@ -34,30 +34,18 @@ UserSchema.virtual('id')
     });
 //password getter and setter, encryption will be added later. TODO
 UserSchema.virtual('password')
-    .set(function () {
-        this.hashedPassword = encryptPassword(password, 10);
+    .set(function (password) {
+        this.hashedPassword = this.encryptPassword(password, 10);
     })
     .get(function () {
         return this.hashedPassword;
     });
 //methods to ecrypt password
 UserSchema.methods.encryptPassword = function(password , saltRound){
-
-    bcrypt.hash(password, saltRound, function(err, encryptedPassword){
-        if(err){
-            throw new Error('Could not create hash for password');
-        }
-        return encryptedPassword;
-    });
+     return bcrypt.hashSync(password, saltRound);
 };
 UserSchema.methods.comparePassword = function(password){
-    bcrypt.compare(password, this.hashedPassword, function(err, res){
-        if(err){
-            throw new Error('Could not compare given password');
-        }
-        return res;
-    });
-
+   return bcrypt.compareSync(password, this.hashedPassword);
 };
 
 module.exports.UserModel = mongoose.model('User', UserSchema);

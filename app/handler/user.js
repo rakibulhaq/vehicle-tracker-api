@@ -33,14 +33,6 @@ class UserHandler {
                 errorMessage : 'Invalid Email Provided'
 
             },
-            'age':{
-                notEmpty : true,
-                numericality:{
-                    onlyInteger: true,
-                    noStrings: true,
-                    greaterThan: 0
-                }
-            },
             'password':{
                 notEmpty : true,
                 isLength: {
@@ -70,7 +62,7 @@ class UserHandler {
             }
             else{
                 return new Promise(function(resolve, reject){
-                    UserModel.findById(userId, function(err, user){
+                    UserModel.findById(req.params.id, function(err, user){
                         if(user == null){
 
                         }
@@ -107,7 +99,7 @@ class UserHandler {
                 lastName : validator.trim(data.lastName),
                 email : validator.trim(data.email),
                 age : validator.trim(data.age),
-                hashedPassword : validator.trim(data.password)
+                password : validator.trim(data.password)
             });
 
         })
