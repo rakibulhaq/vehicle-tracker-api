@@ -1,4 +1,4 @@
-const router = require('express').Router;
+const router = require('express').Router();
 
 const UserController = require(APP_CONTROLLER_PATH + 'user');
 

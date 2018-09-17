@@ -19,9 +19,9 @@ const authManager = require(APP_MANAGER_PATH + 'auth');
 const validationManager = new ValidationManager();
 
 mongoose.Promise = global.Promise;
-mongoose.connect(config.db.MONGO_DB_URL);
+mongoose.connect(config.db.MONGO_DB_URL, {useNewUrlParser : true});
 
-app.use(bodyParser.json);
+app.use(bodyParser.json());
 
 app.use(authManager.providePassport().initialize());
 

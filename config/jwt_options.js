@@ -1,5 +1,5 @@
 module.exports ={
-    issuer = 'api@careekitool.com',
-    audience: 'api.careerkitool.com',
-    algorithm: 'RS256'
+    issuer : "api@careekitool.com",
+    audience: "api.careerkitool.com",
+    algorithm: "RS256"
 }

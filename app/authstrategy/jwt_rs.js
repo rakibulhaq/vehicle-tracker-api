@@ -1,7 +1,7 @@
 const PassportStrategy = require('passport-strategy');
 const jwt = require('jsonwebtoken');
 
-const BaseAuthStrategy = require(APP_AUTH_STRATEGY + 'base');
+const BaseAuthStrategy = require(APP_AUTH_STRATEGY_PATH + 'base');
 
 class JwtRsStrategy extends BaseAuthStrategy{
     constructor(options, verify){

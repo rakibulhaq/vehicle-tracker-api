@@ -1,10 +1,10 @@
 const BaseController = require(APP_CONTROLLER_PATH + 'base');
-class UserTicketController extends BaseController{
+class UserLevelController extends BaseController{
     constructor(){
         super();
 
     }
-    getUserTicketInfo(req, res){
+    getUserLevelInfo(req, res){
 
     }
     getAll(req, res){
@@ -21,4 +21,4 @@ class UserTicketController extends BaseController{
     }
 }
 
-module.exports = UserTicketController;
+module.exports = UserLevelController;

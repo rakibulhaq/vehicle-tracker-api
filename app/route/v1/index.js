@@ -1,7 +1,7 @@
 const express = require('express');
 router = express.Router();
 
-const ROUTE_V1_PATH = APP_ROUTE_PATH + 'v1/';
+const ROUTE_V1_PATH = APP_ROUTE_PATH + "v1/";
 
 router.use('/auth', require(ROUTE_V1_PATH + 'auth'));
 router.use('/users', require(ROUTE_V1_PATH + 'user'));
@@ -17,7 +17,7 @@ router.use('/user_levels', require(ROUTE_V1_PATH + 'user_level'));
 router.use('/skills', require(ROUTE_V1_PATH + 'skill'));
 router.use('/skill_types', require(ROUTE_V1_PATH + 'skill_type'));
 router.use('/industries', require(ROUTE_V1_PATH + 'industry'));
-router.use('/industry_subsecitons', require(ROUTE_V1_PATH + 'industry_subseciton'));
+router.use('/industry_subsections', require(ROUTE_V1_PATH + 'industry_subsection'));
 router.use('/coupons', require(ROUTE_V1_PATH + 'coupon'));
 router.use('/tickets', require(ROUTE_V1_PATH + 'ticket'));
 router.use('/packages', require(ROUTE_V1_PATH + 'package'));

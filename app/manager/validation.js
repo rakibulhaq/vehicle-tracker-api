@@ -1,4 +1,4 @@
-const BaseAutoBindedClass = require(APP_PACKAGE_BASE_PATH + 'base_autobind');
+const BaseAutoBindedClass = require(APP_BASE_PACKAGE_PATH + 'base_autobind');
 const expressValidator = require('express-validator');
 class ValidationManager extends BaseAutoBindedClass{
     constructor(){

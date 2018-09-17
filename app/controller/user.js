@@ -9,7 +9,7 @@ class UserController extends BaseController{
         this._passport = require('passport');
 
     }
-    get(req, res , next){
+    getUserInfo(req, res , next){
         this.authenticate(req, res, next, (token, user)=>{
             this._userHandler.getUserInfo(req, user, this._responseManager.getDefaultResponseHandler(res));
         });

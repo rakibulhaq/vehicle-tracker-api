@@ -2,8 +2,8 @@ const BaseAutoBindedClass = require(APP_BASE_PACKAGE_PATH + 'base_autobind');
 const ForbiddenError = require(APP_ERROR_PATH + 'forbidden');
 const JwtTokenModel = require(APP_MODEL_PATH + 'auth/jwt_token').JwtToken;
 const RevokedTokenModel = require(APP_MODEL_PATH + 'auth/revoked_token').RevokedTokenModel;
-const JwtRsStrategy = require(APP_AUTH_STRATEGY + 'jwt_rs');
-const CredentialsStrategy = require(APP_AUTH_STRATEGY + 'credentials');
+const JwtRsStrategy = require(APP_AUTH_STRATEGY_PATH + 'jwt_rs');
+const CredentialsStrategy = require(APP_AUTH_STRATEGY_PATH + 'credentials');
 const ExtractJwt = require('passport-jwt').ExtractJwt;
 
 class AuthManager extends BaseAutoBindedClass{
@@ -49,7 +49,7 @@ class AuthManager extends BaseAutoBindedClass{
         jwtOptions.audience = config.jwtOptions.audience;
         jwtOptions.privateKey = this._provideJwtSecretKey;
         jwtOptions.publicKey = this._provideJwtPublicKey;
-        jwtOptions.extractJwtToken = ExtractJwt.fromAuthHeader();
+        jwtOptions.extractJwtToken = ExtractJwt.fromAuthHeaderAsBearerToken();
 
         return jwtOptions;
 
@@ -66,12 +66,12 @@ class AuthManager extends BaseAutoBindedClass{
         });
 
     }
+
     providePassport(){
         return this._passport;
-
     }
     extractJwtToken(req){
-        return ExtractJwt.fromAuthHeader()(req);
+        return ExtractJwt.fromAuthHeaderAsBearerToken()(req);
     }
     getSecretKeyForStrategy(name){
         for (let index = 0; index < this._strategies.length; index++) {
@@ -97,4 +97,4 @@ class AuthManager extends BaseAutoBindedClass{
     }
 }
 
-module.exports = AuthManager;
+module.exports = new AuthManager();

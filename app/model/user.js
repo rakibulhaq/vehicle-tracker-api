@@ -1,4 +1,5 @@
 let mongoose = require('mongoose');
+let ObjectId = mongoose.Schema.Types.ObjectId;
 let bcrypt = require('bcrypt');
 let schema = mongoose.Schema;
 
@@ -8,7 +9,7 @@ const UserSchema = new schema({
     email: { type: String, required: true },
     age: { type: Number, required: true },
     sex: { type: String },
-    password: { type: String, required: true },
+    hashedPassword: { type: String, required: true },
     skills: [{type: ObjectId, ref: 'skill'}],
     level: String,
     tier: String,
@@ -34,23 +35,23 @@ UserSchema.virtual('id')
 //password getter and setter, encryption will be added later. TODO
 UserSchema.virtual('password')
     .set(function () {
-        this.password = encryptPassword(password, 10);
+        this.hashedPassword = encryptPassword(password, 10);
     })
     .get(function () {
-        return this.password;
+        return this.hashedPassword;
     });
 //methods to ecrypt password
 UserSchema.methods.encryptPassword = function(password , saltRound){
 
-    bcrypt.hash(password, saltRound, function(err, hashedPassword){
-        return hashedPassword;
+    bcrypt.hash(password, saltRound, function(err, encryptedPassword){
+        return encryptedPassword;
     });
 };
 UserSchema.methods.comparePassword = function(password){
-    bcrypt.compare(password, this.password, function(err, res){
+    bcrypt.compare(password, this.hashedPassword, function(err, res){
         return res;
     });
 
 };
 
-module.exports.UserModel = new mongoose.model('User', UserSchema);
+module.exports.UserModel = mongoose.model('User', UserSchema);
