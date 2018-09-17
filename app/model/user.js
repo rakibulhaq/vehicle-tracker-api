@@ -10,7 +10,7 @@ const UserSchema = new schema({
     age: { type: Number, required: true },
     sex: { type: String },
     hashedPassword: { type: String, required: true },
-    skills: [{type: ObjectId, ref: 'skill'}],
+    skills: [{type: ObjectId, ref: 'skill', default: null}],
     level: String,
     tier: String,
     type: String,
@@ -44,11 +44,17 @@ UserSchema.virtual('password')
 UserSchema.methods.encryptPassword = function(password , saltRound){
 
     bcrypt.hash(password, saltRound, function(err, encryptedPassword){
+        if(err){
+            throw new Error('Could not create hash for password');
+        }
         return encryptedPassword;
     });
 };
 UserSchema.methods.comparePassword = function(password){
     bcrypt.compare(password, this.hashedPassword, function(err, res){
+        if(err){
+            throw new Error('Could not compare given password');
+        }
         return res;
     });
 

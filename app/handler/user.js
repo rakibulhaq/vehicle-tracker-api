@@ -6,7 +6,6 @@ const UnauthorizedError = require(APP_ERROR_PATH + 'unauthorized');
 class UserHandler {
     constructor(){
         this._validator = require('validator');
-
     }
     static get USER_VALIDATION_SCHEME(){
         return{
@@ -46,7 +45,7 @@ class UserHandler {
                 notEmpty : true,
                 isLength: {
                     options : [{min : 6, max: 35}],
-                    errorMessage: 'passwrod must be between 6 and 35 characters'
+                    errorMessage: 'password must be between 6 and 35 characters'
                 }
             }
 
@@ -67,7 +66,7 @@ class UserHandler {
             let userId = req.params.id;
 
             if(userId != userToken.id){
-                throw new UnauthorizedError( 'Provide user id does not match with requested id');
+                throw new UnauthorizedError( 'Provided user id does not match with requested id');
             }
             else{
                 return new Promise(function(resolve, reject){
@@ -104,11 +103,11 @@ class UserHandler {
                 throw new ValidationError('There have been some validation error: '+ errorMessages);
             }
             return new UserModel({
-                firstName : validator(data.firstName),
-                lastName : validator(data.lastName),
-                email : validator(data.email),
-                age : validator(data.email),
-                password : validator(data.password)
+                firstName : validator.trim(data.firstName),
+                lastName : validator.trim(data.lastName),
+                email : validator.trim(data.email),
+                age : validator.trim(data.age),
+                hashedPassword : validator.trim(data.password)
             });
 
         })

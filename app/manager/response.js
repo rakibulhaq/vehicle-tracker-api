@@ -12,7 +12,7 @@ class ResponseManager {
     static get HTTP_STATUS(){
         return HttpStatus;
     }
-    static getDefaultReponseHanlder(res){
+    static getDefaultResponseHandler(res){
         return {
             onSuccess : function(data, message, code){
                 ResponseManager.respondWithSuccess(res, code || ResponseManager.HTTP_STATUS.OK, data, message);
@@ -22,7 +22,7 @@ class ResponseManager {
                 ResponseManager.respondWithError(res, error.status || 500 , error.message || 'Unknown Error');
 
             }
-        }
+        };
 
     }
     static getDefaultResponseHandlerData(res){

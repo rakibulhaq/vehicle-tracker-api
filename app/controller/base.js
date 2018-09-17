@@ -7,7 +7,7 @@ class BaseController extends BaseAutoBindClass{
         if(new.target == BaseController){
             throw new TypeError('Cannot construct base controller class directly');
         }
-        this._reposnseManager = ResponseManager;
+        this._responseManager = ResponseManager;
     }
     get(req, res){
 
