@@ -45,7 +45,7 @@ class UserHandler {
     }
 
     getUserInfo(req, userToken, callback){
-        req.checkParams('id', 'invalid user id provided').isMongoId;
+        req.checkParams('id', 'invalid user id provided').isMongoId();
         req.getValidationResult()
         .then((result)=>{
             if(!result.isEmpty()){
@@ -99,7 +99,15 @@ class UserHandler {
                 lastName : validator.trim(data.lastName),
                 email : validator.trim(data.email),
                 age : validator.trim(data.age),
-                password : validator.trim(data.password)
+                password : validator.trim(data.password),
+                sex: data.sex,
+                skills: data.skills,
+                level: data.level,
+                tier : data.tier,
+                isMentor: data.isMentor,
+                points: data.points,
+                createdTime: Date.now(),
+                status: data.status
             });
 
         })
