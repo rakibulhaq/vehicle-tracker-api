@@ -23,10 +23,16 @@ class UserController extends BaseController{
     getAll(req, res){
 
     }
-    update(req, res){
-
+    update(req, res, next){
+        this.authenticate(req, res, next, (token, user)=>{
+            this._userHandler.updateUser(req, this._responseManager.getDefaultResponseHandler(res));
+        });
+        
     }
-    remove(req, res){
+    remove(req, res, next){
+        this.authenticate(req, res, next, (token, user)=>{
+            this._userHandler.deleteUser(req, this._responseManager.getDefaultResponseHandler(res));
+        });
 
     }
     authenticate(req, res, next, callback){

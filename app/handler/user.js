@@ -152,7 +152,7 @@ class UserHandler {
                 throw new ValidationError('There are some validation errors when updating user: ' + errorMessages);
             }
 
-            return new Promise((reslove, reject)=>{
+            return new Promise((resolve, reject)=>{
                 UserModel.findOne({_id : req.params.id}, (err, user)=>{
                     if(err){
                         reject(err);
@@ -176,6 +176,13 @@ class UserHandler {
             user.email = validator.trim(data.email);
             user.age = validator.trim(data.age);
             user.password = validator.trim(data.password);
+            user.sex = data.sex;
+            user.skills = data.skills;
+            user.level = data.level;
+            user.tier = data.tier;
+            user.isMentor = data.isMentor;
+            user.points = data.points;
+            user.status = data.status;
             user.save();
             return user;
         })
@@ -199,7 +206,7 @@ class UserHandler {
             }
 
             return new Promise((resolve, reject)=>{
-                UserModel.find({_id : req.params.id}, (err, user)=>{
+                UserModel.findOne({_id : req.params.id}, (err, user)=>{
                     if(err){
                         reject(err);
                     }
