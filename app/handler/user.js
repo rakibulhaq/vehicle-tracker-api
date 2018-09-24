@@ -1,5 +1,6 @@
 const UserModel = require(APP_MODEL_PATH + 'user').UserModel;
 const AlreadyExistsError = require(APP_ERROR_PATH + 'already_exists');
+const NotFoundError = require(APP_ERROR_PATH + 'not_found');
 const ValidationError = require(APP_ERROR_PATH + 'validation');
 const UnauthorizedError = require(APP_ERROR_PATH + 'unauthorized');
 
@@ -139,9 +140,91 @@ class UserHandler {
 
     }
     updateUser(req, callback){
+        let data = req.body;
+        let validator = this._validator;
+        req.checkBody(UserHandler.USER_VALIDATION_SCHEME);
+        req.getValidationResult()
+        .then((result)=>{
+            if(!result.isEmpty()){
+                let errorMessages = result.array().map((elem)=>{
+                    return elem.msg;
+                });
+                throw new ValidationError('There are some validation errors when updating user: ' + errorMessages);
+            }
+
+            return new Promise((reslove, reject)=>{
+                UserModel.findOne({_id : req.params.id}, (err, user)=>{
+                    if(err){
+                        reject(err);
+                    }
+                    else{
+                        if(!user){
+                            reject(new NotFoundError('User not found'));
+
+                        }
+                        else{
+                            resolve(user);
+                        }
+                    }
+                });
+            });
+
+        })
+        .then((user)=>{
+            user.firstName = validator.trim(data.firstName);
+            user.lastName = validator.trim(data.lastName);
+            user.email = validator.trim(data.email);
+            user.age = validator.trim(data.age);
+            user.password = validator.trim(data.password);
+            user.save();
+            return user;
+        })
+        .then((saved)=>{
+            callback.onSuccess(saved);
+        })
+        .catch((error)=>{
+            callback.onError(error);
+        });
 
     }
     deleteUser(req, callback){
+        req.checkParams('id', 'Invalid Id provided').isMongoId();
+        req.getValidationResult()
+        .then((result)=>{
+            if(!result.isEmpty()){
+                let errorMessages = result.array().map((elem)=>{
+                    return elem.msg
+                });
+                throw new ValidationError('There are some validation errors: ' + errorMessages);
+            }
+
+            return new Promise((resolve, reject)=>{
+                UserModel.find({_id : req.params.id}, (err, user)=>{
+                    if(err){
+                        reject(err);
+                    }
+                    else{
+                        if(!user){
+                            reject(new NotFoundError('User Not Found'));
+                        }
+                        else{
+                            resolve(user);
+                        }
+                    }
+                });
+            });
+
+        })
+        .then((user)=>{
+            user.remove();
+            return user;
+        })
+        .then((saved)=>{
+            callback.onSuccess(saved);
+        })
+        .catch((error)=>{
+            callback.onError(error);
+        });
 
     }
     getAllUser(req, callback){
