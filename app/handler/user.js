@@ -13,7 +13,7 @@ class UserHandler {
             'firstName' : {
                 notEmpty : true,
                 isLength: {
-                    options: [{min: 2, max : 20}],
+                    options: [{min: 2, max : 35}],
                     errorMessage: 'first name must be between 2 and 15 charecters'
                 },
                 errorMessage: 'Invalid First Name'
@@ -21,7 +21,7 @@ class UserHandler {
             'lastName' : {
                 notEmpty: true,
                 isLength: {
-                    options: [{min : 2 , max : 20}],
+                    options: [{min : 2 , max : 35}],
                     errorMessage: 'last name must be between 2 and 20 characters'
 
                 },
@@ -141,50 +141,16 @@ class UserHandler {
     }
     updateUser(req, callback){
         let data = req.body;
-        let validator = this._validator;
-        req.checkBody(UserHandler.USER_VALIDATION_SCHEME);
-        req.getValidationResult()
-        .then((result)=>{
-            if(!result.isEmpty()){
-                let errorMessages = result.array().map((elem)=>{
-                    return elem.msg;
-                });
-                throw new ValidationError('There are some validation errors when updating user: ' + errorMessages);
-            }
-
-            return new Promise((resolve, reject)=>{
-                UserModel.findOne({_id : req.params.id}, (err, user)=>{
+        
+        return new Promise((resolve, reject)=>{
+                UserModel.findOneAndUpdate({_id : req.params.id}, data, {new : true, upsert: true, runValidators : true}, (err, saved)=>{
                     if(err){
                         reject(err);
                     }
                     else{
-                        if(!user){
-                            reject(new NotFoundError('User not found'));
-
-                        }
-                        else{
-                            resolve(user);
-                        }
+                        resolve(saved);
                     }
                 });
-            });
-
-        })
-        .then((user)=>{
-            user.firstName = validator.trim(data.firstName);
-            user.lastName = validator.trim(data.lastName);
-            user.email = validator.trim(data.email);
-            user.age = validator.trim(data.age);
-            user.password = validator.trim(data.password);
-            user.sex = data.sex;
-            user.skills = data.skills;
-            user.level = data.level;
-            user.tier = data.tier;
-            user.isMentor = data.isMentor;
-            user.points = data.points;
-            user.status = data.status;
-            user.save();
-            return user;
         })
         .then((saved)=>{
             callback.onSuccess(saved);

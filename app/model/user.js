@@ -2,14 +2,15 @@ let mongoose = require('mongoose');
 let ObjectId = mongoose.Schema.Types.ObjectId;
 let bcrypt = require('bcrypt');
 let schema = mongoose.Schema;
+let emailValidator = require('validator').isEmail;
 
 const UserSchema = new schema({
-    firstName: { type: String, required: true },
-    lastName: { type: String, required: true },
-    email: { type: String, required: true },
+    firstName: { type: String, required: true, minlength: 2, maxlength: 35, trim: true },
+    lastName: { type: String, required: true, minlength:2, maxlength:35, trim: true },
+    email: { type: String, required: true, validate: {validator: emailValidator, message : 'Invalid Email', isAsync: false} },
     age: { type: Number, required: true },
     sex: { type: String },
-    hashedPassword: { type: String, required: true },
+    hashedPassword: { type: String, required: true},
     skills: [{type: ObjectId, ref: 'skill', default: null}],
     level: String,
     tier: String,
@@ -32,7 +33,7 @@ UserSchema.virtual('id')
     .get(function () {
         return this._id;
     });
-//password getter and setter, encryption will be added later. TODO
+//password getter and setter
 UserSchema.virtual('password')
     .set(function (password) {
         this.hashedPassword = this.encryptPassword(password, 10);
