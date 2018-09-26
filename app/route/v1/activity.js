@@ -3,7 +3,7 @@ const ActivityController = require(APP_CONTROLLER_PATH + 'activity');
 
 let activityController = new ActivityController();
 
-router.get('/', activityController.get);
+router.get('/', activityController.getAll);
 router.get('/:id', activityController.getActivityInfo);
 router.post('/', activityController.create);
 router.delete('/:id', activityController.remove);
