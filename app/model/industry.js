@@ -7,4 +7,10 @@ const IndustrySchema = new Schema({
     icon_img_path: String
 });
 
+IndustrySchema.methods.toJSON = function(){
+    let object = this.toObject();
+    delete object.__v;
+    return object;
+}
+
 module.exports.IndustryModel = mongoose.model('Industry', IndustrySchema);

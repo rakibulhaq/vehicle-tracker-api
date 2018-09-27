@@ -3,7 +3,7 @@ const IndustrySubsectionController = require(APP_CONTROLLER_PATH + 'industry_sub
 
 let industrySubsectionController = new IndustrySubsectionController();
 
-router.get('/', industrySubsectionController.get);
+router.get('/', industrySubsectionController.getAll);
 router.get('/:id', industrySubsectionController.getIndustrySubsectionInfo);
 router.post('/', industrySubsectionController.create);
 router.delete('/:id', industrySubsectionController.remove);
