@@ -6,4 +6,9 @@ const UserLevelSchema = new Schema({
     pointsRequired: Number
 });
 
+UserLevelSchema.methods.toJSON = function(){
+    let object = this.toObject();
+    delete object.__v;
+    return object;
+}
 module.exports.UserLevelModel = mongoose.model('UserLevel', UserLevelSchema);

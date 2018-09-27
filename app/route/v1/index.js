@@ -23,5 +23,6 @@ router.use('/tickets', require(ROUTE_V1_PATH + 'ticket'));
 router.use('/packages', require(ROUTE_V1_PATH + 'package'));
 router.use('/components', require(ROUTE_V1_PATH + 'component'));
 router.use('/activities', require(ROUTE_V1_PATH + 'activity'));
+router.use('/permissions', require(ROUTE_V1_PATH + 'permission'));
 
 module.exports = router;

@@ -12,4 +12,9 @@ const UserMentorSchema = new Schema({
     mentorRating : Number
 });
 
+UserMentorSchema.methods.toJSON = function(){
+    let object = this.toObject();
+    delete object.__v;
+    return object;
+}
 module.exports.UserMentorModel = mongoose.model('UserMentor', UserMentorSchema);

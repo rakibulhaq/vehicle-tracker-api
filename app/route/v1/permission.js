@@ -3,7 +3,7 @@ const PermissionController = require(APP_CONTROLLER_PATH + 'permission');
 
 let permissionController = new PermissionController();
 
-router.get('/', permissionController.get);
+router.get('/', permissionController.getAll);
 router.get('/:id', permissionController.getPermissionInfo);
 router.post('/', permissionController.create);
 router.delete('/:id', permissionController.remove);

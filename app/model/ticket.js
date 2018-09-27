@@ -9,4 +9,10 @@ const TicketSchema = new Schema({
     createdBy: {type: ObjectId, ref: 'user'}
 });
 
+TicketSchema.methods.toJSON = function(){
+    let object = this.toObject();
+    delete object.__v;
+    return object;
+}
+
 module.exports.TicketModel = mongoose.model('Ticket', TicketSchema);

@@ -8,4 +8,9 @@ const SkillSchema = new Schema({
     industrySubsection: {type: ObjectId, ref: 'industry_subsection'}
 });
 
+SkillSchema.methods.toJSON = function(){
+    let object = this.toObject();
+    delete object.__v;
+    return object;
+}
 module.exports.SkillModel = mongoose.model('Skill', SkillSchema);

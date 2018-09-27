@@ -3,7 +3,7 @@ const TicketController = require(APP_CONTROLLER_PATH + 'ticket');
 
 let ticketController = new TicketController();
 
-router.get('/', ticketController.get);
+router.get('/', ticketController.getAll);
 router.get('/:id', ticketController.getTicketInfo);
 router.post('/', ticketController.create);
 router.delete('/:id', ticketController.remove);

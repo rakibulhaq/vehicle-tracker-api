@@ -1,31 +1,26 @@
-const UserMentorModel = require(APP_MODEL_PATH + 'user_mentor').UserMentorModel;
+const UserLevelModel = require(APP_MODEL_PATH + 'user_level').UserLevelModel;
 const ValidationError = require(APP_ERROR_PATH + 'validation');
 const NotFoundError = require(APP_ERROR_PATH + 'not_found');
 
-class UserMentorHandler{
+class UserLevelHandler{
     constructor(){
         this._validator = require('validator');
     }
 
-    createUserMentorInfo(req, callback){
+    createUserLevelInfo(req, callback){
         let data = req.body;
-        let UserMentor = new UserMentorModel({
-            user: data.user,
-            industrySubsection: data.industrySubsection,
-            mentorLevel: data.mentorLevel,
-            mentorPoints: data.mentorPoints,
-            isMentoring: data.isMentoring,
-            mentoringCounts: data.mentoringCounts,
-            mentorRating : data.mentorRating
+        let UserLevel = new UserLevelModel({
+            name: data.name,
+            pointsRequired: data.pointsRequired
         });
 
         return new Promise((resolve, reject)=>{
-            UserMentorModel.find({name : data.name}, (err, someUserMentor)=>{
+            UserLevelModel.find({name : data.name}, (err, someUserLevel)=>{
                 if(err){
                     reject(err);
                 }
                 else{
-                    resolve(UserMentor);
+                    resolve(UserLevel);
                 }
 
             });
@@ -44,8 +39,8 @@ class UserMentorHandler{
 
     }
 
-    getUserMentorInfo(req, callback){
-        let UserMentorId = req.params.id;
+    getUserLevelInfo(req, callback){
+        let UserLevelId = req.params.id;
         req.checkParams('id', 'invalid id provided').isMongoId();
         req.getValidationResult()
         .then((result)=>{
@@ -59,25 +54,25 @@ class UserMentorHandler{
             }
             else{
                 return new Promise((resolve, reject)=>{
-                    UserMentorModel.findById( UserMentorId, (err, UserMentor)=>{
+                    UserLevelModel.findById( UserLevelId, (err, UserLevel)=>{
                         if(err){
                             reject(err);
 
                         }
                         else{
-                            if(!UserMentor){
-                                return new NotFoundError("UserMentor Not found");
+                            if(!UserLevel){
+                                return new NotFoundError("UserLevel Not found");
                             }
                             else{
-                                resolve(UserMentor);
+                                resolve(UserLevel);
                             }
                         }
                     });
                 });
             }
         })
-        .then((UserMentor)=>{
-            callback.onSuccess(UserMentor);
+        .then((UserLevel)=>{
+            callback.onSuccess(UserLevel);
         })
         .catch((error)=>{
             callback.onError(error);
@@ -85,11 +80,11 @@ class UserMentorHandler{
 
 
     }
-    updateUserMentor(req, callback){
+    updateUserLevel(req, callback){
         let data = req.body;
 
         return new Promise((resolve, reject)=>{
-            UserMentorModel.findOneAndUpdate({_id : req.params.id}, data, {new : true}, (err, saved)=>{
+            UserLevelModel.findOneAndUpdate({_id : req.params.id}, data, {new : true}, (err, saved)=>{
                 if(err){
                     reject(err);
 
@@ -107,7 +102,7 @@ class UserMentorHandler{
         });
 
     }
-    deleteUserMentor(req, callback){
+    deleteUserLevel(req, callback){
         let id = req.params.id;
 
         req.checkParams('id', 'Invalid Id provided').isMongoId();
@@ -118,33 +113,33 @@ class UserMentorHandler{
                     return elem.msg;
                 });
 
-                throw new Error("There has been an error during deleting UserMentor: " + errorMessages);
+                throw new Error("There has been an error during deleting UserLevel: " + errorMessages);
 
             }
             else{
                 return new Promise((resolve, reject)=>{
-                    UserMentorModel.findOneAndDelete(id, (err, UserMentor)=>{
+                    UserLevelModel.findOneAndDelete(id, (err, UserLevel)=>{
                         if(err){
                             reject(err);
                         }
                         else{
-                            resolve(UserMentor);
+                            resolve(UserLevel);
                         }
                     });
                 });  
             }
         })
-        .then((UserMentor)=>{
-            callback.onSuccess(UserMentor);
+        .then((UserLevel)=>{
+            callback.onSuccess(UserLevel);
         })
         .catch((error)=>{
             callback.onError(error);
         });
 
     }
-    getAllUserMentor(req, callback){
+    getAllUserLevel(req, callback){
         return new Promise((resolve, reject)=>{
-            UserMentorModel.find({}, (err , docs)=>{
+            UserLevelModel.find({}, (err , docs)=>{
                 if(err){
                     reject(err);
 
@@ -163,4 +158,4 @@ class UserMentorHandler{
         });
     }
 }
-module.exports = UserMentorHandler;
+module.exports = UserLevelHandler;

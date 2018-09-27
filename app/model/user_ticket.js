@@ -13,4 +13,10 @@ const UserTicketSchema = new Schema({
     ticketClosedTime: Date
 });
 
+UserTicketSchema.methods.toJSON = function(){
+    let object = this.toObject();
+    delete object.__v;
+    return object;
+}
+
 module.exports.UserTicketModel = mongoose.model('UserTicket', UserTicketSchema);

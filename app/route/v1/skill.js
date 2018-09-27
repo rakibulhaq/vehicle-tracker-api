@@ -3,7 +3,7 @@ const SkillController = require(APP_CONTROLLER_PATH + 'skill');
 
 let skillController = new SkillController();
 
-router.get('/', skillController.get);
+router.get('/', skillController.getAll);
 router.get('/:id', skillController.getSkillInfo);
 router.post('/', skillController.create);
 router.delete('/:id', skillController.remove);

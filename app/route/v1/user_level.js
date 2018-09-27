@@ -3,7 +3,7 @@ const UserLevelController = require(APP_CONTROLLER_PATH + 'user_level');
 
 let userLevelController = new UserLevelController();
 
-router.get('/', userLevelController.get);
+router.get('/', userLevelController.getAll);
 router.get('/:id', userLevelController.getUserLevelInfo);
 router.post('/', userLevelController.create);
 router.delete('/:id',userLevelController.remove);

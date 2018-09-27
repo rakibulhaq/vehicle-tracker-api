@@ -9,4 +9,10 @@ const UserCouponSchema = new Schema({
     availedTime: Date
 });
 
+UserCouponSchema.methods.toJSON = function(){
+    let object = this.toObject();
+    delete object.__v;
+    return object;
+}
+
 module.exports.UserCouponModel = mongoose.model('UserCoupon', UserCouponSchema);

@@ -11,4 +11,9 @@ const PackageSchema = new Schema({
     components: [{type: ObjectId, ref: 'component'}]
 });
 
+PackageSchema.methods.toJSON = function(){
+    let object = this.toObject();
+    delete object.__v;
+    return object;
+}
 module.exports.PackageModel = mongoose.model('Package', PackageSchema);

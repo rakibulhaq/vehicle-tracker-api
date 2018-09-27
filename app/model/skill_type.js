@@ -8,4 +8,9 @@ const SkillTypeSchema = new Schema({
     createdTime: Date
 });
 
+SkillTypeSchema.methods.toJSON = function(){
+    let object = this.toObject();
+    delete object.__v;
+    return object;
+}
 module.exports.SkillTypeModel = mongoose.model('SkillType', SkillTypeSchema);

@@ -12,4 +12,10 @@ const UserPurchaseSchema = new Schema({
     isExpired: {type: Boolean, default: false}
 });
 
+UserPurchaseSchema.methods.toJSON = function(){
+    let object = this.toObject();
+    delete object.__v;
+    return object;
+}
+
 module.exports.UserPurchaseModel = mongoose.model('UserPurchase', UserPurchaseSchema);
