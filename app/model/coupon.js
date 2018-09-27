@@ -8,4 +8,10 @@ const CouponSchema = new Schema({
     isActive: {type: Boolean, default: false}
 });
 
+CouponSchema.methods.toJSON = function(){
+    let object = this.toObject();
+    delete object.__v;
+    return object;
+}
+
 module.exports.CouponModel = mongoose.model('Coupon', CouponSchema);

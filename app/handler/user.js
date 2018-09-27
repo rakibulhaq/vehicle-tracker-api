@@ -201,6 +201,23 @@ class UserHandler {
 
     }
     getAllUser(req, callback){
+        return new Promise((resolve, reject)=>{
+            UserModel.find({}, (err , docs)=>{
+                if(err){
+                    reject(err);
+
+                }
+                else{
+                    resolve(docs);
+                }
+            });
+        })
+        .then((docs)=>{
+            callback.onSuccess(docs);
+        })
+        .catch((error)=>{
+            callback.onError(error);
+        });
 
     }
 }

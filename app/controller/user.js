@@ -20,7 +20,10 @@ class UserController extends BaseController{
         let responseManager = this._responseManager;
         this._userHandler.createNewUser(req, responseManager.getDefaultResponseHandler(res));
     }
-    getAll(req, res){
+    getAll(req, res, next){
+        this.authenticate(req, res, next, ()=>{
+            this._userHandler.getAllUser(req, this._responseManager.getDefaultResponseHandler(res));
+        });
 
     }
     update(req, res, next){
