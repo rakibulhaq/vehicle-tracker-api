@@ -1,42 +1,42 @@
 const BaseController = require(APP_CONTROLLER_PATH + 'base');
-const ComponentHandler = require(APP_HANDLER_PATH + 'component');
-class ComponentController extends BaseController{
+const UserSkillHandler = require(APP_HANDLER_PATH + 'user_skill');
+class UserSkillController extends BaseController{
     constructor(){
         super();
-        this._ComponentHandler = new ComponentHandler();
+        this._UserSkillHandler = new UserSkillHandler();
         this._passport = require('passport');
 
     }
-    getComponentInfo(req, res, next){
+    getUserSkillInfo(req, res, next){
         this.authenticate(req, res, next, ()=>{
-            this._ComponentHandler.getComponentInfo(req, this._responseManager.getDefaultResponseHandler(res));
+            this._UserSkillHandler.getUserSkillInfo(req, this._responseManager.getDefaultResponseHandler(res));
         });
 
     }
     getAll(req, res, next){
         this.authenticate(req, res, next, ()=>{
-            this._ComponentHandler.getAllComponent(req, this._responseManager.getDefaultResponseHandler(res));
+            this._UserSkillHandler.getAllUserSkill(req, this._responseManager.getDefaultResponseHandler(res));
 
         });
 
     }
     create(req, res, next){
         this.authenticate(req, res, next, ()=>{
-            this._ComponentHandler.createComponentInfo(req, this._responseManager.getDefaultResponseHandler(res));
+            this._UserSkillHandler.createUserSkillInfo(req, this._responseManager.getDefaultResponseHandler(res));
 
         });
 
     }
     update(req, res, next){
         this.authenticate(req, res, next, ()=>{
-            this._ComponentHandler.updateComponent(req, this._responseManager.getDefaultResponseHandler(res));
+            this._UserSkillHandler.updateUserSkill(req, this._responseManager.getDefaultResponseHandler(res));
 
         });
 
     }
     remove(req, res, next){
         this.authenticate(req, res, next, ()=>{
-            this._ComponentHandler.deleteComponent(req, this._responseManager.getDefaultResponseHandler(res));
+            this._UserSkillHandler.deleteUserSkill(req, this._responseManager.getDefaultResponseHandler(res));
 
         });
 
@@ -53,4 +53,4 @@ class ComponentController extends BaseController{
     }
 }
 
-module.exports = ComponentController;
+module.exports = UserSkillController;

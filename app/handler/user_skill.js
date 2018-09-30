@@ -1,33 +1,27 @@
-const ComponentModel = require(APP_MODEL_PATH + 'component').ComponentModel;
+const UserSkillModel = require(APP_MODEL_PATH + 'user_skill').UserSkillModel;
 const ValidationError = require(APP_ERROR_PATH + 'validation');
 const NotFoundError = require(APP_ERROR_PATH + 'not_found');
 
-class ComponentHandler {
+class UserSkillHandler {
     constructor() {
         this._validator = require('validator');
     }
 
-    createComponentInfo(req, callback) {
+    createUserSkillInfo(req, callback) {
         let data = req.body;
-        let Component = new ComponentModel({
-            name: data.name,
-            descriptionShort: data.descriptionShort,
-            descriptionFull: data.descriptionFull,
-            price: data.price,
-            isActive: data.isActive,
-            imgPath: data.imgPath,
-            saleCount: data.saleCount,
-            rating: data.rating
+        let UserSkill = new UserSkillModel({
+            user: data.user,
+            skills: data.skills
 
         });
 
         return new Promise((resolve, reject) => {
-            ComponentModel.find({ name: data.name }, (err, someComponent) => {
+            UserSkillModel.find({ user: data.user }, (err, someUserSkill) => {
                 if (err) {
                     reject(err);
                 }
                 else {
-                    resolve(Component);
+                    resolve(UserSkill);
                 }
 
             });
@@ -46,8 +40,8 @@ class ComponentHandler {
 
     }
 
-    getComponentInfo(req, callback) {
-        let ComponentId = req.params.id;
+    getUserSkillInfo(req, callback) {
+        let UserSkillId = req.params.id;
         req.checkParams('id', 'invalid id provided').isMongoId();
         req.getValidationResult()
             .then((result) => {
@@ -61,25 +55,25 @@ class ComponentHandler {
                 }
                 else {
                     return new Promise((resolve, reject) => {
-                        ComponentModel.findById(ComponentId, (err, Component) => {
+                        UserSkillModel.findById(UserSkillId, (err, UserSkill) => {
                             if (err) {
                                 reject(err);
 
                             }
                             else {
-                                if (!Component) {
-                                    return new NotFoundError("Component Not found");
+                                if (!UserSkill) {
+                                    return new NotFoundError("UserSkill Not found");
                                 }
                                 else {
-                                    resolve(Component);
+                                    resolve(UserSkill);
                                 }
                             }
                         });
                     });
                 }
             })
-            .then((Component) => {
-                callback.onSuccess(Component);
+            .then((UserSkill) => {
+                callback.onSuccess(UserSkill);
             })
             .catch((error) => {
                 callback.onError(error);
@@ -87,11 +81,11 @@ class ComponentHandler {
 
 
     }
-    updateComponent(req, callback) {
+    updateUserSkill(req, callback) {
         let data = req.body;
 
         return new Promise((resolve, reject) => {
-            ComponentModel.findOneAndUpdate({ _id: req.params.id }, data, { new: true }, (err, saved) => {
+            UserSkillModel.findOneAndUpdate({ _id: req.params.id }, data, { new: true }, (err, saved) => {
                 if (err) {
                     reject(err);
 
@@ -109,7 +103,7 @@ class ComponentHandler {
             });
 
     }
-    deleteComponent(req, callback) {
+    deleteUserSkill(req, callback) {
         let id = req.params.id;
 
         req.checkParams('id', 'Invalid Id provided').isMongoId();
@@ -120,33 +114,33 @@ class ComponentHandler {
                         return elem.msg;
                     });
 
-                    throw new Error("There has been an error during deleting Component: " + errorMessages);
+                    throw new Error("There has been an error during deleting UserSkill: " + errorMessages);
 
                 }
                 else {
                     return new Promise((resolve, reject) => {
-                        ComponentModel.findOneAndDelete(id, (err, Component) => {
+                        UserSkillModel.findOneAndDelete(id, (err, UserSkill) => {
                             if (err) {
                                 reject(err);
                             }
                             else {
-                                resolve(Component);
+                                resolve(UserSkill);
                             }
                         });
                     });
                 }
             })
-            .then((Component) => {
-                callback.onSuccess(Component);
+            .then((UserSkill) => {
+                callback.onSuccess(UserSkill);
             })
             .catch((error) => {
                 callback.onError(error);
             });
 
     }
-    getAllComponent(req, callback) {
+    getAllUserSkill(req, callback) {
         return new Promise((resolve, reject) => {
-            ComponentModel.find({}, (err, docs) => {
+            UserSkillModel.find({}, (err, docs) => {
                 if (err) {
                     reject(err);
 
@@ -165,4 +159,4 @@ class ComponentHandler {
             });
     }
 }
-module.exports = ComponentHandler;
+module.exports = UserSkillHandler;

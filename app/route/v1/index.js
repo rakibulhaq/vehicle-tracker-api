@@ -9,6 +9,7 @@ router.use('/user_activities', require(ROUTE_V1_PATH + 'user_activity'));
 router.use('/user_mentors', require(ROUTE_V1_PATH + 'user_mentor'));
 router.use('/user_tests', require(ROUTE_V1_PATH + 'user_test'));
 router.use('/user_tickets', require(ROUTE_V1_PATH + 'user_ticket'));
+router.use('/user_skills', require(ROUTE_V1_PATH + 'user_skill'));
 router.use('/user_coupons', require(ROUTE_V1_PATH + 'user_coupon'));
 router.use('/user_permissions', require(ROUTE_V1_PATH + 'user_permission'));
 router.use('/user_purchases', require(ROUTE_V1_PATH + 'user_purchase'));
