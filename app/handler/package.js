@@ -1,7 +1,7 @@
 const PackageModel = require(APP_MODEL_PATH + 'package').PackageModel;
 const ValidationError = require(APP_ERROR_PATH + 'validation');
 const NotFoundError = require(APP_ERROR_PATH + 'not_found');
-
+const AlreadyExistsError = require(APP_ERROR_PATH + 'already_exists');
 class PackageHandler{
     constructor(){
         this._validator = require('validator');
@@ -15,7 +15,8 @@ class PackageHandler{
             code: data.code,
             isActive: data.isActive,
             type: data.type,
-            components: data.components
+            components: data.components,
+            saleCount: data.saleCount
         });
 
         return new Promise((resolve, reject)=>{
