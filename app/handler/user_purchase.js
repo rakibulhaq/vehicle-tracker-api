@@ -16,7 +16,10 @@ class UserPurchaseHandler {
             purchaseRating: data.purchaseRating,
             purchaseDate: data.purchaseDate,
             expiryDate: data.expiryDate,
-            isExpired: data.isExpired
+            isExpired: data.isExpired,
+            actualPrice: data.actualPrice,
+            discountedPrice: data.discountedPrice,
+            couponUsed: data.couponUsed
 
         });
 

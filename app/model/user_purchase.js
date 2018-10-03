@@ -9,7 +9,10 @@ const UserPurchaseSchema = new Schema({
     purchaseRating: Number,
     purchaseDate: Date,
     expiryDate: Date,
-    isExpired: {type: Boolean, default: false}
+    isExpired: {type: Boolean, default: false},
+    actualPrice : Number,
+    discountedPrice: Number,
+    couponUsed: {type: ObjectId , ref: 'coupon', default: null}
 });
 
 UserPurchaseSchema.methods.toJSON = function(){
