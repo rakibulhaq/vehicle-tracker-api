@@ -13,6 +13,8 @@ class UserTicketHandler {
             user: data.user,
             ticket: data.ticket,
             ticketStatus: data.ticketStatus,
+            ticketOpenBy: data.ticketOpenBy,
+            ticketOpenTime: data.ticketOpenTime,
             ticketAssignedTo: data.ticketAssignedTo,
             ticketAssignedTime: data.ticketAssignedTime,
             ticketAssignedBy: data.ticketAssignedBy,

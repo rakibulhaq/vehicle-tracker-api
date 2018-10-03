@@ -6,6 +6,8 @@ const UserTicketSchema = new Schema({
     user: {type: ObjectId , ref: 'user'},
     ticket: {type: ObjectId, ref: 'ticket'},
     ticketStatus: String,
+    ticketOpenBy: {type: ObjectId, ref: 'user'},
+    ticketOpenTime: Date,
     ticketAssignedTo: {type: ObjectId, ref: 'user'},
     ticketAssignedTime: Date,
     ticketAssignedBy: {type: ObjectId, ref: 'user'},
