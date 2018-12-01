@@ -10,7 +10,7 @@ class AuthManager extends BaseAutoBindedClass{
     constructor(){
         super();
         this._passport = require('passport');
-        this._jwtTokenHanlder = require('jsonwebtoken');
+        this._jwtTokenHandler = require('jsonwebtoken');
         this._strategies = [];
         this._setupStrategies();
         this._setPassportStrategies();
@@ -89,7 +89,7 @@ class AuthManager extends BaseAutoBindedClass{
 
         switch (strategyName) {
             case 'jwt-rs-auth':
-                return new JwtTokenModel(this._jwtTokenHanlder.sign(payload, key , options));                
+                return new JwtTokenModel(this._jwtTokenHandler.sign(payload, key , options));                
             default:
                 throw new TypeError('Cannot sign token for the '+ strategyName + "strategy");
         }
