@@ -1,6 +1,6 @@
 const LocalAuthStrategy = require('passport-local').Strategy;
 
-const UserModel = require(APP_MODEL_PATH + 'user').UserModel;
+const UserModel = require('../api/v1/user').UserModel;
 
 const NotFoundError = require(APP_ERROR_PATH + 'not_found');
 const UnauthorizedError = require(APP_ERROR_PATH + 'unauthorized');

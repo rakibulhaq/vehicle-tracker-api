@@ -1,6 +1,6 @@
 const router = require('express').Router();
 
-const UserController = require(APP_CONTROLLER_PATH + 'user');
+const UserController = require('../../api/v1/user').UserController;
 
 let userController = new UserController();
 
