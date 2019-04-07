@@ -1,5 +1,5 @@
 const router = require('express').Router();
-const ComponentController = require(APP_CONTROLLER_PATH + 'component');
+const ComponentController = require('../../api/v1/component').ComponentController;
 let componentController = new ComponentController();
 
 router.get('/', componentController.getAll);

@@ -1,5 +1,5 @@
 const router = require('express').Router();
-const AuthController = require(APP_CONTROLLER_PATH + 'auth');
+const AuthController = require('../../api/v1/auth').AuthController;
 
 let authController = new AuthController();
 

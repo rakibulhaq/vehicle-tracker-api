@@ -1,5 +1,5 @@
 const router = require('express').Router();
-const ActivityController = require(APP_CONTROLLER_PATH + 'activity');
+const ActivityController = require('../../api/v1/activity').ActivityController;
 
 let activityController = new ActivityController();
 

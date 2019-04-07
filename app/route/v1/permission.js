@@ -1,5 +1,5 @@
 const router = require('express').Router();
-const PermissionController = require(APP_CONTROLLER_PATH + 'permission');
+const PermissionController = require('../../api/v1/permission').PermissionController;
 
 let permissionController = new PermissionController();
 

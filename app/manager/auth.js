@@ -1,7 +1,7 @@
 const BaseAutoBindedClass = require(APP_BASE_PACKAGE_PATH + 'base_autobind');
 const ForbiddenError = require(APP_ERROR_PATH + 'forbidden');
-const JwtTokenModel = require(APP_MODEL_PATH + 'auth/jwt_token');
-const RevokedTokenModel = require(APP_MODEL_PATH + 'auth/revoked_token').RevokedTokenModel;
+const JwtTokenModel = require('../api/v1/auth').JwtTokenModel;
+const RevokedTokenModel = require('../api/v1/auth').RevokedTokenModel;
 const JwtRsStrategy = require(APP_AUTH_STRATEGY_PATH + 'jwt_rs');
 const CredentialsStrategy = require(APP_AUTH_STRATEGY_PATH + 'credentials');
 const ExtractJwt = require('passport-jwt').ExtractJwt;

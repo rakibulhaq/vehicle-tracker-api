@@ -1,5 +1,5 @@
 const router = require('express').Router();
-const CouponController = require(APP_CONTROLLER_PATH + 'coupon');
+const CouponController = require('../../api/v1/coupon').CouponController;
 let couponController = new CouponController();
 
 router.get('/', couponController.getAll);

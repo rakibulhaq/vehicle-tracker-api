@@ -1,4 +1,4 @@
-const BaseController = require(APP_CONTROLLER_PATH + 'base');
+const BaseController = require('../base').BaseController;
 const UserHandler = require('./user.handler');
 // const util = require('util');
 

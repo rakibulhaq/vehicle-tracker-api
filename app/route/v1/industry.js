@@ -1,5 +1,5 @@
 const router = require('express').Router();
-const IndustryController = require(APP_CONTROLLER_PATH + 'industry');
+const IndustryController = require('../../api/v1/industry').IndustryController;
 
 let industryController = new IndustryController();
 

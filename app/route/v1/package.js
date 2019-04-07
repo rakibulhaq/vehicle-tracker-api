@@ -1,5 +1,5 @@
 const router = require('express').Router();
-const PackageController = require(APP_CONTROLLER_PATH + 'package');
+const PackageController = require('../../api/v1/package').PackageController;
 
 let packageController = new PackageController();
 

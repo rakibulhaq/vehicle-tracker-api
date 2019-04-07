@@ -1,5 +1,5 @@
 const router = require('express').Router();
-const TicketController = require(APP_CONTROLLER_PATH + 'ticket');
+const TicketController = require('../../api/v1/ticket').TicketController;
 
 let ticketController = new TicketController();
 

@@ -1,5 +1,5 @@
 const router = require('express').Router();
-const SkillController = require(APP_CONTROLLER_PATH + 'skill');
+const SkillController = require('../../api/v1/skill').SkillController;
 
 let skillController = new SkillController();
 
