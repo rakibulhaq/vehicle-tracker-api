@@ -4,7 +4,7 @@ let ObjectId = mongoose.Schema.Types.ObjectId;
 
 const UserMentorSchema = new Schema({
     user: {type: ObjectId, ref : 'user'},
-    industrySubsection: [{type: ObjectId, ref: 'industry_subsection'}],
+    industrySubsection: [{type: ObjectId, ref: 'industry-subsection'}],
     mentorLevel: String,
     mentorPoints: Number,
     isMentoring: {type: Boolean, default: false},

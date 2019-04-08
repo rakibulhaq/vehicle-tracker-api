@@ -65,7 +65,7 @@ class UserHandler {
                 return new Promise(function(resolve, reject){
                     UserModel.findById(req.params.id, function(err, user){
                         if(user == null){
-
+                            reject(user);
                         }
                         else{
                             resolve(user);
