@@ -99,8 +99,10 @@ class UserHandler {
                 firstName : validator.trim(data.firstName),
                 lastName : validator.trim(data.lastName),
                 email : validator.trim(data.email),
-                age : validator.trim(data.age),
+                phone : data.phone,
+                age : data.age,
                 password : validator.trim(data.password),
+                imageUrl: data.imageUrl,
                 sex: data.sex,
                 skills: data.skills,
                 level: data.level,
@@ -143,6 +145,17 @@ class UserHandler {
         let data = req.body;
         
         return new Promise((resolve, reject)=>{
+            if(typeof req.query.operation != 'undefined' && req.query.operation == 'MentorStatus'){
+                UserModel.findOneAndUpdate({_id : req.params.id}, {$set: {'isMentor': req.query.isMentor}}, {new : true, upsert: true, runValidators : true}, (err, saved)=>{
+                    if(err){
+                        reject(err);
+                    }
+                    else{
+                        resolve(saved);
+                    }
+                });
+            }
+            else{
                 UserModel.findOneAndUpdate({_id : req.params.id}, data, {new : true, upsert: true, runValidators : true}, (err, saved)=>{
                     if(err){
                         reject(err);
@@ -151,6 +164,8 @@ class UserHandler {
                         resolve(saved);
                     }
                 });
+            }
+                
         })
         .then((saved)=>{
             callback.onSuccess(saved);
@@ -202,15 +217,31 @@ class UserHandler {
     }
     getAllUser(req, callback){
         return new Promise((resolve, reject)=>{
-            UserModel.find({}, (err , docs)=>{
-                if(err){
-                    reject(err);
+            if(typeof req.params.user_id != 'undefined'){
+                UserModel.find({_id : req.params.user_id}, (err , docs)=>{
+                    if(err){
+                        reject(err);
+    
+                    }
+                    else{
+                        resolve(docs);
+                    }
+                });
 
-                }
-                else{
-                    resolve(docs);
-                }
-            });
+            }
+            else{
+                //catch all user get request
+                UserModel.find({}, (err , docs)=>{
+                    if(err){
+                        reject(err);
+    
+                    }
+                    else{
+                        resolve(docs);
+                    }
+                });
+            }
+            
         })
         .then((docs)=>{
             callback.onSuccess(docs);
