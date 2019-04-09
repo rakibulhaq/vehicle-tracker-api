@@ -145,16 +145,52 @@ class IndustryHandler{
 
     }
     getAllIndustry(req, callback){
+        //operation=List&order=asc&limit=3&page=1
+        //operation=Specific&industries=[{"id1"}, {"id2"}, ...]
         return new Promise((resolve, reject)=>{
-            IndustryModel.find({}, (err , docs)=>{
-                if(err){
-                    reject(err);
+            if(typeof req.query.operation != 'undefined' && req.query.operation == 'List'){
+                IndustryModel.find({})
+                .sort({'name' : req.query.order})
+                .skip(parseInt(req.query.page) * parseInt(req.query.limit))
+                .limit(parseInt(req.query.limit))
+                .exec((err , docs)=>{
+                    if(err){
+                        reject(err);
+    
+                    }
+                    else{
+                        resolve(docs);
+                    }
+                });
+            }
+            else if(typeof req.query.operation != 'undefined' && req.query.operation == 'Specific'){
 
-                }
-                else{
-                    resolve(docs);
-                }
-            });
+                IndustryModel.find({'_id' : {$in : req.query.industries}})
+                .sort({'name' : req.query.order})
+                .exec((err , docs)=>{
+                    if(err){
+                        reject(err);
+    
+                    }
+                    else{
+                        resolve(docs);
+                    }
+                });
+
+            }
+            else{
+                IndustryModel.find({}, (err , docs)=>{
+                    if(err){
+                        reject(err);
+    
+                    }
+                    else{
+                        resolve(docs);
+                    }
+                });
+
+            }
+            
         })
         .then((docs)=>{
             callback.onSuccess(docs);
