@@ -107,7 +107,14 @@ class UserHandler {
                 skills: data.skills,
                 level: data.level,
                 tier : data.tier,
+                services: data.services,    
                 isMentor: data.isMentor,
+                mentorLevel: data.mentorLevel,
+                mentorPoints: data.mentorPoints,
+                isMentoring: data.isMentoring,
+                mentoringCounts: data.mentoringCounts,
+                mentorRating : data.mentorRating,
+                mentoringPlaces: data.mentoringPlaces,
                 points: data.points,
                 createdTime: Date.now(),
                 status: data.status
@@ -147,6 +154,16 @@ class UserHandler {
         return new Promise((resolve, reject)=>{
             if(typeof req.query.operation != 'undefined' && req.query.operation == 'MentorStatus'){
                 UserModel.findOneAndUpdate({_id : req.params.id}, {$set: {'isMentor': req.query.isMentor}}, {new : true, upsert: true, runValidators : true}, (err, saved)=>{
+                    if(err){
+                        reject(err);
+                    }
+                    else{
+                        resolve(saved);
+                    }
+                });
+            }
+            else if(typeof req.query.operation != 'undefined' && req.query.operation == 'MentoringStatus'){
+                UserModel.findOneAndUpdate({_id : req.params.id}, {$set: {'isMentoring': req.query.isMentoring}}, {new : true, upsert: true, runValidators : true}, (err, saved)=>{
                     if(err){
                         reject(err);
                     }
@@ -217,7 +234,7 @@ class UserHandler {
     }
     getAllUser(req, callback){
         return new Promise((resolve, reject)=>{
-            if(typeof req.params.user_id != 'undefined'){
+            if(typeof req.params.user_id != 'undefined' && req.query.operation == 'BasicUserData'){
                 UserModel.find({_id : req.params.user_id}, (err , docs)=>{
                     if(err){
                         reject(err);
@@ -228,6 +245,58 @@ class UserHandler {
                     }
                 });
 
+            }
+            else if(req.query.operation == 'BasicMentorData' && typeof req.query.mentor_id == 'undefined'){
+
+                let limit = 10;
+                if(req.query.limit){
+                    limit = parseInt(req.query.limit)
+                }
+                
+                UserModel.find({'isMentoring' : true}, '_id name imageUrl designation skills address company industry services mentorRating hourlyRate')
+                .populate('skills', 'name')
+                .populate('industry', 'name')
+                .populate('services', 'name')
+                .sort({'name' : 'asc'})
+                .limit(limit)
+                .exec((err, docs)=>{
+                    if(!err){
+                        resolve(docs);
+                    }
+                    else{
+                        reject(err);
+                    }
+                });        
+                
+            }
+            else if(req.query.operation == 'DetailMentorData' && typeof req.query.mentor_id != 'undefined'){
+                UserModel.find({'_id' : req.query.mentor_id, 'isMentoring' : true}, 'schedules mentoringCounts mentoringPlaces')
+                .exec((err, docs)=>{
+                    if(!err){
+                        resolve(docs);
+                    }
+                    else{
+                        reject(err);
+                    }
+                });
+            }
+            else if(req.query.operation == 'SpecificMentorData' && typeof req.query.mentor_id != 'undefined'){
+                UserModel.find({'isMentoring' : true, 'industries' : {$in : req.query.industries}}, '_id name imageUrl designation skills address company industry services mentorRating hourlyRate')
+                .populate('skills', 'name')
+                .populate('industry', 'name')
+                .populate('services', 'name')
+                .sort({'hourlyRate' : req.query.order})
+                .limit(parseInt(req.query.limit))
+                .skip(parseInt(req.query.limit) * parseInt(req.query.page))
+                .exec( (err , docs)=>{
+                    if(err){
+                        reject(err);
+    
+                    }
+                    else{
+                        resolve(docs);
+                    }
+                });
             }
             else{
                 //catch all user get request

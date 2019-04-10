@@ -12,16 +12,29 @@ const UserSchema = new schema({
     age: { type: Number, default: 0 },
     sex: { type: String },
     imageUrl: {type: String, default: ""},
+    address: String,
+    company: String,
+    designation: String,
+    mentorLevel: String,
+    mentorPoints: Number,
+    hourlyRate: Number,
+    services: [{type: ObjectId, ref: 'service'}],
+    mentoringCounts: Number,
+    mentorRating : Number,
+    schedules: [{date: Date, timeSlots: [{type : String}]}] ,
     hashedPassword: { type: String, required: true},
     skills: [{type: ObjectId, ref: 'skill', default: null}],
+    industry: [{type: ObjectId, ref: 'industry'}],
     level: {type: ObjectId, ref : "user-level", default: null},
     tier: {type: ObjectId, ref : "user-tier", default: null},
     type: String,
     isMentor: {type: Boolean, default: false},
+    isMentoring: {type: Boolean, default: false},
+    mentoringPlaces: [{type: String}],
     points: Number,
     createdTime: Date,
     updatedTime: { type: Date, default: Date.Now },
-    status: { type: String, lowercase: true }
+    status: { type: String, lowercase: true, default: "active" }
 });
 
 UserSchema.methods.toJSON = function () {
