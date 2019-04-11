@@ -154,16 +154,216 @@ class UserSessionHandler {
     }
     getAllUserSession(req, callback) {
         return new Promise((resolve, reject) => {
-            UserSessionModel.find({}, (err, docs) => {
-                if (err) {
-                    reject(err);
+            //summary count of user session
+            if(typeof req.query.operation != 'undefined' && req.query.operation == 'Summary'){
+                //count active, pending, completed
+                if(typeof req.query.userId != 'undefined'){
+                    UserSessionModel.aggregate([
+                        {
+                            $match: {
+                                "userId": req.query.userId
+                            }
+                        },
+                        {
+                            $group: {
+                                _id: '$_id',
+                                activeSessions: { $sum: {
+                                    '$cond': [
+                                        { '$eq': ['$sessionStatus', 'Active']}, 
+                                        1, 
+                                        0
+                                    ]
+                                } },
+                                pendingSessions: { $sum: {
+                                    '$cond': [
+                                        { '$eq': ['$sessionStatus', 'Pending']}, 
+                                        1, 
+                                        0
+                                    ]
+                                } },
+                                completedSessions: { $sum: {
+                                    '$cond': [
+                                        { '$eq': ['$sessionStatus', 'Complete']}, 
+                                        1, 
+                                        0
+                                    ]
+                                } } 
+                            }
+                        },
+                        {
+                            $project: {
+                                "_id": 1,
+                                "activeSessions": 1,
+                                "pendingSessions": 1,
+                                "completedSessions": 1
+                            }
+                        }
+                    ],
+                        (err, docs) => {
+                            if (!err) {
+                                // console.log(docs)
+                                resolve(docs)
+                            }
+                            else {
+                                reject(err)
+                            }
+    
+                        });
 
                 }
-                else {
+                else if(typeof req.query.mentorId != 'undefined'){
+                    UserSessionModel.aggregate([
+                        {
+                            $match: {
+                                "mentorId": req.query.mentorId
+                            }
+                        },
+                        {
+                            $group: {
+                                _id: '$_id',
+                                activeSessions: { $sum: {
+                                    '$cond': [
+                                        { '$eq': ['$sessionStatus', 'Active']}, 
+                                        1, 
+                                        0
+                                    ]
+                                } },
+                                pendingSessions: { $sum: {
+                                    '$cond': [
+                                        { '$eq': ['$sessionStatus', 'Pending']}, 
+                                        1, 
+                                        0
+                                    ]
+                                } },
+                                completedSessions: { $sum: {
+                                    '$cond': [
+                                        { '$eq': ['$sessionStatus', 'Complete']}, 
+                                        1, 
+                                        0
+                                    ]
+                                } } 
+                            }
+                        },
+                        {
+                            $project: {
+                                "_id": 1,
+                                "activeSessions": 1,
+                                "pendingSessions": 1,
+                                "completedSessions": 1
+                            }
+                        }
+                    ],
+                        (err, docs) => {
+                            if (!err) {
+                                // console.log(docs)
+                                resolve(docs)
+                            }
+                            else {
+                                reject(err)
+                            }
+    
+                        });
 
-                    resolve(docs);
                 }
-            });
+                
+                
+
+            }
+            else if(typeof req.query.operation != 'undefined' && req.query.operation == 'Info'){
+                UserSessionModel.find({_id : req.query.id}, (err, docs) => {
+                    if (err) {
+                        reject(err);
+    
+                    }
+                    else {
+    
+                        resolve(docs);
+                    }
+                });
+            }
+            else if(typeof req.query.operation != 'undefined' && req.query.operation == 'Reviews'){
+                UserSessionModel.find({_id : req.query.id}, 'sessionReviewUser sessionRatingUser sessionReviewMentor sessionRatingMentor', (err, docs) => {
+                    if (err) {
+                        reject(err);
+    
+                    }
+                    else {
+    
+                        resolve(docs);
+                    }
+                });
+            }
+            else if(typeof req.query.operation != 'undefined' && req.query.operation == 'UserReviews'){
+                //find user given reviews
+                UserSessionModel.find({userId : req.query.userId}, 'sessionReviewUser sessionRatingUser' ,(err, docs) => {
+                    if (err) {
+                        reject(err);
+    
+                    }
+                    else {
+    
+                        resolve(docs);
+                    }
+                });
+
+            }
+            else if(typeof req.query.operation != 'undefined' && req.query.operation == 'UserReviewsFromMentors'){
+                //find user given reviews
+                UserSessionModel.find({userId : req.query.userId}, 'sessionReviewMentor sessionRatingMentor' ,(err, docs) => {
+                    if (err) {
+                        reject(err);
+    
+                    }
+                    else {
+    
+                        resolve(docs);
+                    }
+                });
+
+            }
+            else if(typeof req.query.operation != 'undefined' && req.query.operation == 'MentorReviews'){
+                //find mentor given reviews
+                UserSessionModel.find({mentorId : req.query.mentorId},'sessionReviewMentor sessionRatingMentor' , (err, docs) => {
+                    if (err) {
+                        reject(err);
+    
+                    }
+                    else {
+    
+                        resolve(docs);
+                    }
+                });
+
+            }
+            else if(typeof req.query.operation != 'undefined' && req.query.operation == 'MentorReviewsFromUser'){
+                //find reviews given to a mentor
+                UserSessionModel.find({mentorId : req.query.mentorId},'sessionReviewUser sessionRatingUser' , (err, docs) => {
+                    if (err) {
+                        reject(err);
+    
+                    }
+                    else {
+    
+                        resolve(docs);
+                    }
+                });
+
+            }
+            else{
+
+                UserSessionModel.find({}, (err, docs) => {
+                    if (err) {
+                        reject(err);
+    
+                    }
+                    else {
+    
+                        resolve(docs);
+                    }
+                });
+                
+            }
+           
         })
             .then((docs) => {
                 callback.onSuccess(docs);
