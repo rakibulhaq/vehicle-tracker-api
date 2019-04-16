@@ -68,7 +68,7 @@ class MessageHandler{
                         }
                         else{
                             if(!MessageOne){
-                                return new NotFoundError("Activity Not found");
+                                return new NotFoundError("Message Not found");
                             }
                             else{
                                 resolve(MessageOne);
@@ -91,15 +91,31 @@ class MessageHandler{
         let data = req.body;
 
         return new Promise((resolve, reject)=>{
-            MessageModel.findOneAndUpdate({_id : req.params.id}, data, {new : true}, (err, saved)=>{
-                if(err){
-                    reject(err);
+            if(typeof req.query.seenStatus != 'undefined'){
+                MessageModel.findOneAndUpdate({_id : req.params.id}, {seenStatus : req.query.seenStatus}, {new : true}, (err, saved)=>{
+                    if(err){
+                        reject(err);
+    
+                    }
+                    else{
+                        resolve(saved);
+                    }
+                });
 
-                }
-                else{
-                    resolve(saved);
-                }
-            });
+            }
+            else {
+                MessageModel.findOneAndUpdate({_id : req.params.id}, data, {new : true}, (err, saved)=>{
+                    if(err){
+                        reject(err);
+    
+                    }
+                    else{
+                        resolve(saved);
+                    }
+                });
+
+            }
+            
         })
         .then((saved)=>{
             callback.onSuccess(saved);
@@ -146,15 +162,40 @@ class MessageHandler{
     }
     getAllMessage(req, callback){
         return new Promise((resolve, reject)=>{
-            MessageModel.find({}, (err , docs)=>{
-                if(err){
-                    reject(err);
+            //smses of a user both seen and unseen and all messages
+            if(typeof req.query.userId != 'undefined'){
+                let condition = {sentBy : req.query.userId};
+                if(typeof req.query.seenStatus != 'undefined'){
+                    condition = {sentBy: req.query.userId, seenStatus: req.query.status};
+                }
+                MessageModel.find(condition)
+                .sort({'sentTime' : req.query.order})
+                .skip(parseInt(req.query.limit) * parseInt(req.query.page))
+                .limit(parseInt(req.query.limit))
+                .exec((err , docs)=>{
+                    if(err){
+                        reject(err);
+    
+                    }
+                    else{
+                        resolve(docs);
+                    }
+                });
 
-                }
-                else{
-                    resolve(docs);
-                }
-            });
+            }
+            else{
+                MessageModel.find({}, (err , docs)=>{
+                    if(err){
+                        reject(err);
+    
+                    }
+                    else{
+                        resolve(docs);
+                    }
+                });
+
+            }
+           
         })
         .then((docs)=>{
             callback.onSuccess(docs);
