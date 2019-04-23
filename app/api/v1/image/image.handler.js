@@ -1,5 +1,5 @@
-const AlreadyExistsError = require(APP_ERROR_PATH + 'already-exists');
-const NotFoundError = require(APP_ERROR_PATH + 'not-found');
+const AlreadyExistsError = require(APP_ERROR_PATH + 'already_exists');
+const NotFoundError = require(APP_ERROR_PATH + 'not_found');
 const ValidationError = require(APP_ERROR_PATH + 'validation');
 
 class ImageHandler {
