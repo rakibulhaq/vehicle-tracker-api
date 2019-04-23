@@ -21,6 +21,12 @@ const validationManager = new ValidationManager();
 mongoose.Promise = global.Promise;
 mongoose.connect(config.db.MONGO_DB_URL, {useNewUrlParser : true});
 
+const cors = require('cors');
+
+app.use(cors());
+
+app.use('/static', express.static(global.APP_ROOT_PATH + 'assets/'));
+
 app.use(bodyParser.json());
 
 app.use(authManager.providePassport().initialize());
