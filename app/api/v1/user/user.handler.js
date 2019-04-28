@@ -14,21 +14,6 @@ class UserHandler {
                 notEmpty: true,
                 errorMessage: 'User Name Must not Be Empty'
             },
-            'firstName' : {
-                isLength: {
-                    options: [{ max : 35}],
-                    errorMessage: 'first name must be less than 35 charecters'
-                },
-                errorMessage: 'Invalid First Name'
-            },
-            'lastName' : {
-                isLength: {
-                    options: [{ max : 35}],
-                    errorMessage: 'last name must be less than 35 characters'
-
-                },
-                errorMessage: 'Invalid Last Name'
-            },
             'password':{
                 notEmpty : true,
                 isLength: {
@@ -92,9 +77,9 @@ class UserHandler {
             }
             return new UserModel({
                 userName: validator.trim(data.userName),
-                firstName : validator.trim(data.firstName),
-                lastName : validator.trim(data.lastName),
-                email : validator.trim(data.email),
+                firstName : data.firstName,
+                lastName : data.lastName,
+                email : data.email,
                 phone : data.phone,
                 age : data.age,
                 password : validator.trim(data.password),
