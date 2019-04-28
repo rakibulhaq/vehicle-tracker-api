@@ -12,11 +12,7 @@ class UserHandler {
         return{
             'userName' : {
                 notEmpty: true,
-                isLength: {
-                    options: [{min: 2, max : 35}],
-                    errorMessage: 'first name must be between 2 and 15 charecters'
-                },
-                errorMessage: 'Invalid First Name'
+                errorMessage: 'User Name Must not Be Empty'
             },
             'firstName' : {
                 isLength: {
@@ -32,13 +28,6 @@ class UserHandler {
 
                 },
                 errorMessage: 'Invalid Last Name'
-            },
-            'email':{
-                isEmail:{
-                    errorMessage : 'Invalid Email'
-                },
-                errorMessage : 'Invalid Email Provided'
-
             },
             'password':{
                 notEmpty : true,

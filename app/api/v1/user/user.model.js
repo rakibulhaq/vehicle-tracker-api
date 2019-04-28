@@ -8,7 +8,7 @@ const UserSchema = new schema({
     userName: {type: String, required: true},
     firstName: { type: String, minlength: 2, maxlength: 35, trim: true },
     lastName: { type: String, minlength:2, maxlength:35, trim: true },
-    email: { type: String, validate: {validator: emailValidator, message : 'Invalid Email', isAsync: false} },
+    email: { type: String, default: "" },
     phone: { type: String, default: ""},
     age: { type: Number, default: 0 },
     sex: { type: String },
