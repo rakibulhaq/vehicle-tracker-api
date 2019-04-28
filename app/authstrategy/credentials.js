@@ -14,8 +14,8 @@ class CredentialsAuthStrategy extends LocalAuthStrategy{
         return 'credentials-auth';
     }
 
-    static handleUserAuth(usermail, password, done){
-        UserModel.findOne({email: usermail}, function(err, user){
+    static handleUserAuth(username, password, done){
+        UserModel.findOne({userName: username}, function(err, user){
             if (err){
                 return done(err)
 
