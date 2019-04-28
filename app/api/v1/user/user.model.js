@@ -5,9 +5,10 @@ let schema = mongoose.Schema;
 let emailValidator = require('validator').isEmail;
 
 const UserSchema = new schema({
-    firstName: { type: String, required: true, minlength: 2, maxlength: 35, trim: true },
-    lastName: { type: String, required: true, minlength:2, maxlength:35, trim: true },
-    email: { type: String, required: true, validate: {validator: emailValidator, message : 'Invalid Email', isAsync: false} },
+    userName: {type: String, required: true},
+    firstName: { type: String, minlength: 2, maxlength: 35, trim: true },
+    lastName: { type: String, minlength:2, maxlength:35, trim: true },
+    email: { type: String, validate: {validator: emailValidator, message : 'Invalid Email', isAsync: false} },
     phone: { type: String, default: ""},
     age: { type: Number, default: 0 },
     sex: { type: String },

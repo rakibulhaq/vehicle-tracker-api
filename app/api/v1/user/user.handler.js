@@ -10,19 +10,25 @@ class UserHandler {
     }
     static get USER_VALIDATION_SCHEME(){
         return{
-            'firstName' : {
-                notEmpty : true,
+            'userName' : {
+                notEmpty: true,
                 isLength: {
                     options: [{min: 2, max : 35}],
                     errorMessage: 'first name must be between 2 and 15 charecters'
                 },
                 errorMessage: 'Invalid First Name'
             },
-            'lastName' : {
-                notEmpty: true,
+            'firstName' : {
                 isLength: {
-                    options: [{min : 2 , max : 35}],
-                    errorMessage: 'last name must be between 2 and 20 characters'
+                    options: [{ max : 35}],
+                    errorMessage: 'first name must be less than 35 charecters'
+                },
+                errorMessage: 'Invalid First Name'
+            },
+            'lastName' : {
+                isLength: {
+                    options: [{ max : 35}],
+                    errorMessage: 'last name must be less than 35 characters'
 
                 },
                 errorMessage: 'Invalid Last Name'
@@ -96,6 +102,7 @@ class UserHandler {
                 throw new ValidationError('There have been some validation error: '+ errorMessages);
             }
             return new UserModel({
+                userName: validator.trim(data.userName),
                 firstName : validator.trim(data.firstName),
                 lastName : validator.trim(data.lastName),
                 email : validator.trim(data.email),
@@ -123,7 +130,7 @@ class UserHandler {
         })
         .then((user)=>{
             return new Promise(function(resolve, reject){
-                UserModel.find({email : user.email} , function(err, docs){
+                UserModel.find({userName : user.userName} , function(err, docs){
                     if(docs.length){
                         reject(new AlreadyExistsError('User already exists'));
                     }
