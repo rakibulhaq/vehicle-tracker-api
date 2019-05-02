@@ -215,8 +215,8 @@ class UserHandler {
     }
     getAllUser(req, callback){
         return new Promise((resolve, reject)=>{
-            if(typeof req.params.user_id != 'undefined' && req.query.operation == 'BasicUserData'){
-                UserModel.find({_id : req.params.user_id}, (err , docs)=>{
+            if(typeof req.query.user_id != 'undefined' && req.query.operation == 'BasicUserData'){
+                UserModel.find({_id : req.query.user_id}, (err , docs)=>{
                     if(err){
                         reject(err);
     
