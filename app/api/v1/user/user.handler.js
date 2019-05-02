@@ -77,8 +77,7 @@ class UserHandler {
             }
             return new UserModel({
                 userName: validator.trim(data.userName),
-                firstName : data.firstName,
-                lastName : data.lastName,
+                name : data.name,
                 email : data.email,
                 phone : data.phone,
                 age : data.age,

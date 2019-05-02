@@ -6,8 +6,7 @@ let emailValidator = require('validator').isEmail;
 
 const UserSchema = new schema({
     userName: {type: String, required: true},
-    firstName: { type: String, minlength: 2, maxlength: 35, trim: true },
-    lastName: { type: String, minlength:2, maxlength:35, trim: true },
+    name: { type: String, minlength: 2, maxlength: 35, trim: true },
     email: { type: String, default: "" },
     phone: { type: String, default: ""},
     age: { type: Number, default: 0 },
