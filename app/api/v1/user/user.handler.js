@@ -75,11 +75,20 @@ class UserHandler {
 
                 throw new ValidationError('There have been some validation error: '+ errorMessages);
             }
+            let phoneNo = ''
+            let email = ''
+            if(isNaN(data.userName) && typeof data.email == 'undefined'){
+                email = data.userName
+            }
+            else if(typeof data.phone == 'undefined'){
+                phoneNo = data.userName
+            }
             return new UserModel({
+
                 userName: validator.trim(data.userName),
                 name : data.name,
-                email : data.email,
-                phone : data.phone,
+                email : email == '' ? data.email : email,
+                phone : phoneNo == ''? data.phone : phoneNo,
                 age : data.age,
                 password : validator.trim(data.password),
                 imageUrl: data.imageUrl,
@@ -105,7 +114,7 @@ class UserHandler {
             return new Promise(function(resolve, reject){
                 UserModel.find({userName : user.userName} , function(err, docs){
                     if(docs.length){
-                        reject(new AlreadyExistsError('User already exists'));
+                        reject(new AlreadyExistsError('User already exists with the userName'));
                     }
                     else{
                         resolve(user);
