@@ -216,7 +216,7 @@ class UserHandler {
     getAllUser(req, callback){
         return new Promise((resolve, reject)=>{
             if(typeof req.query.user_id != 'undefined' && req.query.operation == 'BasicUserData'){
-                UserModel.find({_id : req.query.user_id}, (err , docs)=>{
+                UserModel.find({_id : req.query.user_id}, '_id name imageUrl' , (err , docs)=>{
                     if(err){
                         reject(err);
     
@@ -234,7 +234,7 @@ class UserHandler {
                     limit = parseInt(req.query.limit)
                 }
                 
-                UserModel.find({'isMentoring' : true}, '_id name imageUrl designation skills address company industry services mentorRating hourlyRate')
+                UserModel.find({isMentoring : true}, '_id name imageUrl designation skills address company industry services mentorRating hourlyRate')
                 .populate('skills', 'name')
                 .populate('industry', 'name')
                 .populate('services', 'name')
@@ -251,7 +251,7 @@ class UserHandler {
                 
             }
             else if(req.query.operation == 'DetailMentorData' && typeof req.query.mentor_id != 'undefined'){
-                UserModel.find({'_id' : req.query.mentor_id, 'isMentoring' : true}, 'schedules mentoringCounts mentoringPlaces')
+                UserModel.find({_id : req.query.mentor_id, 'isMentoring' : true}, 'schedules mentoringCounts mentoringPlaces')
                 .exec((err, docs)=>{
                     if(!err){
                         resolve(docs);
@@ -262,7 +262,7 @@ class UserHandler {
                 });
             }
             else if(req.query.operation == 'SpecificMentorData' && typeof req.query.mentor_id != 'undefined'){
-                UserModel.find({'isMentoring' : true, 'industries' : {$in : req.query.industries}}, '_id name imageUrl designation skills address company industry services mentorRating hourlyRate')
+                UserModel.find({isMentoring : true, 'industries' : {$in : req.query.industries}}, '_id name imageUrl designation skills address company industry services mentorRating hourlyRate')
                 .populate('skills', 'name')
                 .populate('industry', 'name')
                 .populate('services', 'name')
