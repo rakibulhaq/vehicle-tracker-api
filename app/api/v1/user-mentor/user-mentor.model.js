@@ -4,12 +4,12 @@ let ObjectId = mongoose.Schema.Types.ObjectId;
 
 const UserMentorSchema = new Schema({
     //name, id, image, designation,skills[], address, Company,sector, service[],rating,Price/Rate per hour
-    user: {type: ObjectId, ref : 'user'},
-    industry: [{type: ObjectId, ref: 'industry'}],
+    user: {type: ObjectId, ref : 'User'},
+    industry: [{type: ObjectId, ref: 'Industry'}],
     mentorLevel: String,
     mentorPoints: Number,
     hourlyRate: Number,
-    services: [{type: ObjectId, ref: 'service'}],
+    services: [{type: ObjectId, ref: 'Service'}],
     isMentoring: {type: Boolean, default: false},
     mentoringCounts: Number,
     mentorRating : Number

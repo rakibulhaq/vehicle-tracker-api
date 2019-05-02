@@ -12,7 +12,7 @@ class SkillHandler{
         let skill = new SkillModel({
             name: data.name,
             type: data.type,
-            industrySubsection: data.industrySubsection
+            industry: data.industry
         });
 
         return new Promise((resolve, reject)=>{

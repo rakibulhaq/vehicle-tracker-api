@@ -3,8 +3,8 @@ let Schema = mongoose.Schema;
 let ObjectId = mongoose.Schema.Types.ObjectId;
 
 const UserCouponSchema = new Schema({
-    user: {type: ObjectId, ref: 'user'},
-    coupon: {type: ObjectId, ref: 'coupon'},
+    user: {type: ObjectId, ref: 'User'},
+    coupon: {type: ObjectId, ref: 'Coupon'},
     status: String,
     availedTime: Date
 });

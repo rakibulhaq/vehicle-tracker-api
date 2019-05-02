@@ -3,15 +3,15 @@ let Schema = mongoose.Schema;
 let ObjectId = mongoose.Schema.Types;
 
 const UserTicketSchema = new Schema({
-    user: {type: ObjectId , ref: 'user'},
-    ticket: {type: ObjectId, ref: 'ticket'},
+    user: {type: ObjectId , ref: 'User'},
+    ticket: {type: ObjectId, ref: 'Ticket'},
     ticketStatus: String,
-    ticketOpenBy: {type: ObjectId, ref: 'user'},
+    ticketOpenBy: {type: ObjectId, ref: 'User'},
     ticketOpenTime: Date,
-    ticketAssignedTo: {type: ObjectId, ref: 'user'},
+    ticketAssignedTo: {type: ObjectId, ref: 'User'},
     ticketAssignedTime: Date,
-    ticketAssignedBy: {type: ObjectId, ref: 'user'},
-    ticketClosedBy: {type: ObjectId, ref: 'user'},
+    ticketAssignedBy: {type: ObjectId, ref: 'User'},
+    ticketClosedBy: {type: ObjectId, ref: 'User'},
     ticketClosedTime: Date
 });
 

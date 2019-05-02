@@ -2,8 +2,8 @@ let mongoose = require('mongoose');
 let Schema = mongoose.Schema;
 let ObjectId = mongoose.Schema.Types.ObjectId;
 const UserActivitySchema = new Schema({
-user: {type: ObjectId, ref: 'user'},
-activity : {type: ObjectId, ref: 'activity'},
+user: {type: ObjectId, ref: 'User'},
+activity : {type: ObjectId, ref: 'Activity'},
 activityTimeStart: Date,
 activityTimeEnd: Date,
 activityDescription: String,

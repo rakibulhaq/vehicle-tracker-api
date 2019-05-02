@@ -217,6 +217,18 @@ class UserHandler {
                 });
 
             }
+            else if (typeof req.query.user_id != 'undefined' && req.query.operation == 'DetailUserData') {
+                UserModel.find({ _id: req.query.user_id }, '_id userName name imageUrl bio education employmentStatus university skills company designation address email phone', (err, docs) => {
+                    if (err) {
+                        reject(err);
+
+                    }
+                    else {
+                        resolve(docs);
+                    }
+                });
+
+            }
             else if (req.query.operation == 'BasicMentorData' && typeof req.query.mentor_id == 'undefined') {
 
                 let limit = 10;
@@ -224,7 +236,7 @@ class UserHandler {
                     limit = parseInt(req.query.limit)
                 }
 
-                UserModel.find({ isMentoring: true }, '_id name imageUrl designation skills address company industry services mentorRating hourlyRate')
+                UserModel.find({ isMentoring: true }, '_id name imageUrl designation skills address bio company industry services mentorRating hourlyRate')
                     .populate('skills', 'name')
                     .populate('industry', 'name')
                     .populate('services', 'name')

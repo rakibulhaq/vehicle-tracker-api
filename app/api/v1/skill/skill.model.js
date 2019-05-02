@@ -4,8 +4,8 @@ let ObjectId = mongoose.Schema.Types.ObjectId;
 
 const SkillSchema = new Schema({
     name: String,
-    type: {type: ObjectId, ref: 'skill-type'},
-    industrySubsection: {type: ObjectId, ref: 'industry-subsection'}
+    type: {type: ObjectId, ref: 'SkillType'},
+    industry: {type: ObjectId, ref: 'Industry'}
 });
 
 SkillSchema.methods.toJSON = function(){

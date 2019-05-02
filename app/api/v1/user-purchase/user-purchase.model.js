@@ -3,8 +3,8 @@ let Schema = mongoose.Schema;
 let ObjectId = mongoose.Schema.Types.ObjectId;
 
 const UserPurchaseSchema = new Schema({
-    user: {type: ObjectId, ref: 'user'},
-    package: {type: ObjectId, ref: 'package'},
+    user: {type: ObjectId, ref: 'User'},
+    package: {type: ObjectId, ref: 'Package'},
     purchaseCode: String,
     purchaseRating: Number,
     purchaseDate: Date,
@@ -12,7 +12,7 @@ const UserPurchaseSchema = new Schema({
     isExpired: {type: Boolean, default: false},
     actualPrice : Number,
     discountedPrice: Number,
-    couponUsed: {type: ObjectId , ref: 'coupon', default: null}
+    couponUsed: {type: ObjectId , ref: 'Coupon', default: null}
 });
 
 UserPurchaseSchema.methods.toJSON = function(){

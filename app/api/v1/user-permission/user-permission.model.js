@@ -3,8 +3,8 @@ let Schema = mongoose.Schema;
 let ObjectId = mongoose.Schema.Types.ObjectId;
 
 const UserPermissionSchema = new Schema({
-    user: {type: ObjectId, ref : 'user'},
-    permissions : [{type: ObjectId, ref: 'permission'}]
+    user: {type: ObjectId, ref : 'User'},
+    permissions : [{type: ObjectId, ref: 'Permission'}]
 });
 
 UserPermissionSchema.methods.toJSON = function(){

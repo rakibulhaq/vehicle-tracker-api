@@ -4,7 +4,7 @@ let ObjectId = mongoose.Schema.Types.ObjectId;
 
 const SkillTypeSchema = new Schema({
     type: String,
-    createdBy: {type: ObjectId, ref:'user'},
+    createdBy: {type: ObjectId, ref:'User'},
     createdTime: Date
 });
 

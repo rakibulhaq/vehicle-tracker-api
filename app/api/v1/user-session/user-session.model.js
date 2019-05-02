@@ -4,14 +4,14 @@ let ObjectId = mongoose.Schema.Types.ObjectId;
 
 const UserSessionSchema = new Schema({
 
-    userId: {type: ObjectId, ref : 'user'},
-    mentorId: {type: ObjectId, ref : 'user'},
+    userId: {type: ObjectId, ref : 'User'},
+    mentorId: {type: ObjectId, ref : 'User'},
     sessionStatus: {type: String, default: "Pending"},
     sessionRequestedTime:  {type: Date, default: null},
     requestReviewedTime: {type: Date, default: null},
     sessionStartTime: {type: Date, default: null},
     sessionEndTime: {type: Date, default: null},
-    serviceOffered: [{type: ObjectId, ref: 'service'}],
+    serviceOffered: [{type: ObjectId, ref: 'Service'}],
     sessionSpot: String,
     sessionReviewUser: String,
     sessionRatingUser: Number,
