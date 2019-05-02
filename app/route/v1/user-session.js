@@ -1,7 +1,7 @@
 const router = require('express').Router();
-const userSessionController = require('../../api/v1/user-session').UserSessionController;
+const UserSessionController = require('../../api/v1/user-session').UserSessionController;
 
-let userSessionController = new userSessionController();
+let userSessionController = new UserSessionController();
 
 router.get('/', userSessionController.getAll);
 router.get('/:id', userSessionController.getUserSessionInfo);
