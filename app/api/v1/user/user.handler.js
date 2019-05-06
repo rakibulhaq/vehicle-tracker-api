@@ -262,7 +262,7 @@ class UserHandler {
             }
             else if (req.query.operation == 'BasicMentorData' && typeof req.query.mentor_id != 'undefined') {
 
-                UserModel.find({userId: req.query.mentor_id}, '_id name imageUrl designation skills address bio company industry services mentorRating hourlyRate')
+                UserModel.find({_id: req.query.mentor_id}, '_id name imageUrl designation skills address bio company industry services mentorRating hourlyRate')
                     .populate('skills', 'name')
                     .populate('industry', 'name')
                     .populate('services', 'name')
