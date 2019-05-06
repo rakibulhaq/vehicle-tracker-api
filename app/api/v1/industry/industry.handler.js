@@ -173,7 +173,7 @@ class IndustryHandler{
                     return new ObjectId(eachElem)
                 });
                 console.log(industryArray)
-                IndustryModel.find({_id : {$in : [industryArray] }})
+                IndustryModel.find({_id : {$in : industryArray }})
                 .sort({'name' : req.query.order})
                 .exec((err , docs)=>{
                     if(err){
