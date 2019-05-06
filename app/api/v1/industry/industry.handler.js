@@ -1,7 +1,7 @@
 const IndustryModel = require('./industry.model').IndustryModel;
 const ValidationError = require(APP_ERROR_PATH + 'validation');
 const NotFoundError = require(APP_ERROR_PATH + 'not_found');
-
+const ObjectId = require('mongoose').Types.ObjectId;
 class IndustryHandler{
     constructor(){
         this._validator = require('validator');
