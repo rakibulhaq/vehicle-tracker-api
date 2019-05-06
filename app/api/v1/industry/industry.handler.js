@@ -165,11 +165,15 @@ class IndustryHandler{
             }
             else if(typeof req.query.operation != 'undefined' && req.query.operation == 'Specific'){
 
-                let industryArray = req.query.industries.map((eachElem) => {
-                    return new ObjectId(eachElem._id)
+                console.log(typeof req.query.industries)
+                console.log(req.query.industries)
+
+                let someIndustries = req.query.industries.split(',')
+                let industryArray = someIndustries.map((eachElem) => {
+                    return new ObjectId(eachElem)
                 });
                 console.log(industryArray)
-                IndustryModel.find({_id : {$in : industryArray }})
+                IndustryModel.find({_id : {$in : [industryArray] }})
                 .sort({'name' : req.query.order})
                 .exec((err , docs)=>{
                     if(err){
