@@ -266,9 +266,6 @@ class UserHandler {
                     .populate('skills', 'name')
                     .populate('industry', 'name')
                     .populate('services', 'name')
-                    .sort({ 'name': 'asc' })
-                    .skip((parseInt(req.query.page) - 1) * parseInt(req.query.limit))
-                    .limit(limit)
                     .exec((err, docs) => {
                         if (!err) {
                             resolve(docs);
