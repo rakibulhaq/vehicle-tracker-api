@@ -248,6 +248,26 @@ class UserHandler {
                     .populate('industry', 'name')
                     .populate('services', 'name')
                     .sort({ 'name': 'asc' })
+                    .skip((parseInt(req.query.page) - 1) * parseInt(req.query.limit))
+                    .limit(limit)
+                    .exec((err, docs) => {
+                        if (!err) {
+                            resolve(docs);
+                        }
+                        else {
+                            reject(err);
+                        }
+                    });
+
+            }
+            else if (req.query.operation == 'BasicMentorData' && typeof req.query.mentor_id != 'undefined') {
+
+                UserModel.find({userId: req.query.mentor_id}, '_id name imageUrl designation skills address bio company industry services mentorRating hourlyRate')
+                    .populate('skills', 'name')
+                    .populate('industry', 'name')
+                    .populate('services', 'name')
+                    .sort({ 'name': 'asc' })
+                    .skip((parseInt(req.query.page) - 1) * parseInt(req.query.limit))
                     .limit(limit)
                     .exec((err, docs) => {
                         if (!err) {
