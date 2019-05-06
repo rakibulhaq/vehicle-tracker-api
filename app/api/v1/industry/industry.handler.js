@@ -164,8 +164,8 @@ class IndustryHandler{
                 });
             }
             else if(typeof req.query.operation != 'undefined' && req.query.operation == 'Specific'){
-
-                IndustryModel.find({'_id' : {$in : req.query.industries}})
+                console.log(req.query.industries)
+                IndustryModel.find({_id : {$in : req.query.industries}})
                 .sort({'name' : req.query.order})
                 .exec((err , docs)=>{
                     if(err){
