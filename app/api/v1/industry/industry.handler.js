@@ -151,7 +151,7 @@ class IndustryHandler{
             if(typeof req.query.operation != 'undefined' && req.query.operation == 'List'){
                 IndustryModel.find({})
                 .sort({'name' : req.query.order})
-                .skip(parseInt(req.query.page) * parseInt(req.query.limit))
+                .skip((parseInt(req.query.page) - 1) * parseInt(req.query.limit))
                 .limit(parseInt(req.query.limit))
                 .exec((err , docs)=>{
                     if(err){

@@ -23,6 +23,7 @@ class UserSessionHandler {
             sessionRatingUser: data.sessionRatingUser,
             sessionReviewMentor: data.sessionReviewMentor,
             sessionRatingMentor: data.sessionRatingMentor,
+            invoiceId: data.invoiceId,
             paymentStatus: data.paymentStatus,
             paymentTime: data.paymentTime,
             paymentMedium: data.paymentMedium,
@@ -281,6 +282,18 @@ class UserSessionHandler {
                     }
                 });
             }
+            else if(typeof req.query.operation != 'undefined' && req.query.operation == 'ModifiedMentorInfo'){
+                UserSessionModel.find({_id : req.query.id}, 'sessionModifiedStartTime sessionModifiedSpot', (err, docs) => {
+                    if (err) {
+                        reject(err);
+    
+                    }
+                    else {
+    
+                        resolve(docs);
+                    }
+                });
+            }
             else if(typeof req.query.operation != 'undefined' && req.query.operation == 'Reviews'){
                 UserSessionModel.find({_id : req.query.id}, 'sessionReviewUser sessionRatingUser sessionReviewMentor sessionRatingMentor', (err, docs) => {
                     if (err) {
@@ -345,6 +358,34 @@ class UserSessionHandler {
                     else {
     
                         resolve(docs);
+                    }
+                });
+
+            }
+            else if(typeof req.query.operation != 'undefined' && req.query.operation == 'Sessions'){
+                let conditions = {}
+                //find different types of sessions for a given user or mentor
+                if(req.query.mode == 'Mentor'){
+                    conditions = {mentorId : req.query.userId};
+
+                }
+                else if(req.query.mode == 'User'){
+                    conditions = {userId : req.query.userId};
+
+                }
+
+                conditions["status"] = req.query.type;
+
+                UserSessionModel.find(conditions)
+                .sort({'createdTime' : req.query.order})
+                .skip((parseInt(req.query.page) - 1 ) * parseInt(req.query.limit))
+                .limit(parseInt(req.query.limit))
+                .exec((err, res)=>{
+                    if(!err){
+                        resolve(res)
+                    }
+                    else{
+                        reject(err)
                     }
                 });
 

@@ -98,8 +98,10 @@ class UserHandler {
                     tier: data.tier,
                     education: data.education,
                     bio: data.bio,
+                    industry: data.industry,
                     university: data.university,
                     employmentStatus: data.employmentStatus,
+                    schedules: data.schedules,
                     services: data.services,
                     isMentor: data.isMentor,
                     mentorLevel: data.mentorLevel,
@@ -233,10 +235,15 @@ class UserHandler {
 
                 let limit = 10;
                 if (req.query.limit) {
-                    limit = parseInt(req.query.limit)
+                    limit = parseInt(req.query.limit);
+                }
+                let conditions = {isMentoring: true};
+                if(req.query.pricerange != 'undefined'){
+                    let priceRange = pricerange.split('-')
+                    conditions = {isMentoring : true, $and : [ {hourlyRate : {$gte: parseInt(priceRange[0])}}, {hourlyRate : {$lte: parseInt(priceRange[1])}}]}
                 }
 
-                UserModel.find({ isMentoring: true }, '_id name imageUrl designation skills address bio company industry services mentorRating hourlyRate')
+                UserModel.find(conditions, '_id name imageUrl designation skills address bio company industry services mentorRating hourlyRate')
                     .populate('skills', 'name')
                     .populate('industry', 'name')
                     .populate('services', 'name')
