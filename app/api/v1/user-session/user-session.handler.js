@@ -1,6 +1,7 @@
 const UserSessionModel = require('./user-session.model').UserSessionModel;
 const ValidationError = require(APP_ERROR_PATH + 'validation');
 const NotFoundError = require(APP_ERROR_PATH + 'not_found');
+const ObjectId = require('mongoose').Types.ObjectId;
 
 class UserSessionHandler {
     constructor() {
@@ -162,7 +163,7 @@ class UserSessionHandler {
                     UserSessionModel.aggregate([
                         {
                             $match: {
-                                "userId": req.query.userId
+                                "userId": new ObjectId(req.query.userId)
                             }
                         },
                         {
@@ -216,7 +217,7 @@ class UserSessionHandler {
                     UserSessionModel.aggregate([
                         {
                             $match: {
-                                "mentorId": req.query.mentorId
+                                "mentorId": new ObjectId(req.query.mentorId)
                             }
                         },
                         {
@@ -374,7 +375,7 @@ class UserSessionHandler {
 
                 }
 
-                conditions["status"] = req.query.type;
+                conditions["sessionStatus"] = req.query.type;
 
                 UserSessionModel.find(conditions)
                 .sort({'createdTime' : req.query.order})

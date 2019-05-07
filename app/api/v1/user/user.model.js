@@ -25,7 +25,16 @@ const UserSchema = new schema({
     services: [{type: ObjectId, ref: 'Service'}],
     mentoringCounts: { type: Number, default: 0 },
     mentorRating : { type: Number, default: 0.0 },
-    schedules: [{date: Date, timeSlots: [{type : String}]}] ,
+    schedules: [
+        {
+            date: Date, 
+            timeSlots: [
+                {
+                    type : String
+                }
+            ]
+        }
+    ] ,
     hashedPassword: { type: String, required: true},
     skills: [{type: ObjectId, ref: 'Skill', default: null}],
     industry: [{type: ObjectId, ref: 'Industry'}],

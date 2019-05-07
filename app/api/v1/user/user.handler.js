@@ -3,6 +3,7 @@ const AlreadyExistsError = require(APP_ERROR_PATH + 'already_exists');
 const NotFoundError = require(APP_ERROR_PATH + 'not_found');
 const ValidationError = require(APP_ERROR_PATH + 'validation');
 const UnauthorizedError = require(APP_ERROR_PATH + 'unauthorized');
+const ObjectId = require('mongoose').Types.ObjectId;
 
 class UserHandler {
     constructor() {
@@ -238,7 +239,7 @@ class UserHandler {
                     limit = parseInt(req.query.limit);
                 }
                 let conditions = {isMentoring: true};
-                if(req.query.pricerange != 'undefined'){
+                if(typeof req.query.pricerange != 'undefined'){
                     let priceRange = pricerange.split('-')
                     conditions = {isMentoring : true, $and : [ {hourlyRate : {$gte: parseInt(priceRange[0])}}, {hourlyRate : {$lte: parseInt(priceRange[1])}}]}
                 }
@@ -277,24 +278,38 @@ class UserHandler {
 
             }
             else if (req.query.operation == 'DetailMentorData' && typeof req.query.mentor_id != 'undefined') {
-                UserModel.find({ _id: req.query.mentor_id, 'isMentoring': true }, 'schedules mentoringCounts mentoringPlaces')
-                    .exec((err, docs) => {
-                        if (!err) {
-                            resolve(docs);
-                        }
-                        else {
-                            reject(err);
-                        }
-                    });
+                UserModel.find({ _id : req.query.mentor_id }, 'schedules mentoringCounts mentoringPlaces', (err, docs) => {
+                    if (!err) {
+                        resolve(docs);
+                    }
+                    else {
+                        reject(err);
+                    }
+                });
             }
-            else if (req.query.operation == 'SpecificMentorData' && typeof req.query.mentor_id != 'undefined') {
-                UserModel.find({ isMentoring: true, 'industries': { $in: req.query.industries } }, '_id name imageUrl designation skills address company industry services mentorRating hourlyRate')
+            else if (req.query.operation == 'SpecificMentorData') {
+
+                //split industries and wrap them in an array by casting to mongo id
+                let someIndustries = req.query.industries.split(',')
+                let industryArray = someIndustries.map((eachElem) => {
+                    return new ObjectId(eachElem)
+                });
+                let conditions = { isMentoring: true, industries : { $elemMatch: {$in: industryArray} }  };
+
+                if(typeof req.query.pricerange != 'undefined'){
+                    let priceRange = pricerange.split('-')
+                    conditions['$and'] =  [ {hourlyRate : {$gte: parseInt(priceRange[0])}}, {hourlyRate : {$lte: parseInt(priceRange[1])}}];
+                    console.log('conditions: ', conditions)
+                    
+                }
+
+                UserModel.find(conditions , '_id name imageUrl designation skills address company industry services mentorRating hourlyRate')
                     .populate('skills', 'name')
                     .populate('industry', 'name')
                     .populate('services', 'name')
                     .sort({ 'hourlyRate': req.query.order })
                     .limit(parseInt(req.query.limit))
-                    .skip(parseInt(req.query.limit) * parseInt(req.query.page))
+                    .skip(parseInt(req.query.limit) * (parseInt(req.query.page) - 1 ))
                     .exec((err, docs) => {
                         if (err) {
                             reject(err);
