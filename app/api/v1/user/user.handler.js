@@ -297,7 +297,7 @@ class UserHandler {
                 let conditions = { isMentoring: true, industries : { $elemMatch: {$in: industryArray} }  };
 
                 if(typeof req.query.pricerange != 'undefined'){
-                    let priceRange = pricerange.split('-')
+                    let priceRange = req.query.pricerange.split('-')
                     conditions['$and'] =  [ {hourlyRate : {$gte: parseInt(priceRange[0])}}, {hourlyRate : {$lte: parseInt(priceRange[1])}}];
                     console.log('conditions: ', conditions)
                     
