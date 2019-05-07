@@ -29,5 +29,6 @@ router.use('/permissions', require(ROUTE_V1_PATH + 'permission'));
 router.use('/images', require(ROUTE_V1_PATH + 'image'));
 router.use('/user-sessions', require(ROUTE_V1_PATH + 'user-session'));
 router.use('/messages', require(ROUTE_V1_PATH + 'message'));
+router.use('/services', require(ROUTE_V1_PATH + 'service'));
 
 module.exports = router;
