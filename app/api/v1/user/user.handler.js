@@ -240,8 +240,8 @@ class UserHandler {
                 }
                 let conditions = {isMentoring: true};
                 if(typeof req.query.pricerange != 'undefined'){
-                    let priceRange = pricerange.split('-')
-                    conditions = {isMentoring : true, $and : [ {hourlyRate : {$gte: parseInt(priceRange[0])}}, {hourlyRate : {$lte: parseInt(priceRange[1])}}]}
+                    let priceRange =  req.query.pricerange.split('-')
+                    conditions = {isMentoring : true, $and : [ { hourlyRate : {$gte: parseInt(priceRange[0])}}, { hourlyRate : {$lte: parseInt(priceRange[1])}}]}
                 }
 
                 UserModel.find(conditions, '_id name imageUrl designation skills address bio company industry services mentorRating hourlyRate')
