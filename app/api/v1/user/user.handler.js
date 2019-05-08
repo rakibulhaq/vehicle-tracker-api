@@ -294,7 +294,7 @@ class UserHandler {
                 let industryArray = someIndustries.map((eachElem) => {
                     return new ObjectId(eachElem)
                 });
-                let conditions = { isMentoring: true, industries : { $elemMatch: {$in: industryArray} }  };
+                let conditions = { isMentoring: true, industry : { $elemMatch: {$in: industryArray} }  };
 
                 if(typeof req.query.pricerange != 'undefined'){
                     let priceRange = req.query.pricerange.split('-')
