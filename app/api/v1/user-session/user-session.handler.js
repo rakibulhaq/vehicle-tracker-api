@@ -366,16 +366,15 @@ class UserSessionHandler {
             else if(typeof req.query.operation != 'undefined' && req.query.operation == 'Sessions'){
                 let conditions = {}
                 //find different types of sessions for a given user or mentor
+                
                 if(req.query.mode == 'Mentor'){
-                    conditions = {mentorId : req.query.userId};
+                    conditions = {mentorId : req.query.userId, sessionStatus: req.query.type};
 
                 }
                 else if(req.query.mode == 'User'){
-                    conditions = {userId : req.query.userId};
+                    conditions = {userId : req.query.userId, sessionStatus: req.query.type};
 
                 }
-
-                conditions["sessionStatus"] = req.query.type;
 
                 UserSessionModel.find(conditions)
                 .sort({'createdTime' : req.query.order})
