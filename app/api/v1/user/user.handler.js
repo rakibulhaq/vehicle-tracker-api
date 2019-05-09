@@ -291,7 +291,7 @@ class UserHandler {
 
                 let conditions = { isMentoring: true };
 
-                if(typeof req.query.industries != 'undefined'){
+                if(typeof req.query.industries != 'undefined' && req.query.industries != ""){
                     //split industries and wrap them in an array by casting to mongo id
                     let someIndustries = req.query.industries.split(',')
                     let industryArray = someIndustries.map((eachElem) => {
@@ -302,12 +302,13 @@ class UserHandler {
                 
                 
 
-                if(typeof req.query.pricerange != 'undefined'){
+                if(typeof req.query.pricerange != 'undefined' && req.query.pricerange != ""){
                     let priceRange = req.query.pricerange.split('-')
                     conditions['$and'] =  [ {hourlyRate : {$gte: parseInt(priceRange[0])}}, {hourlyRate : {$lte: parseInt(priceRange[1])}}];
-                    // console.log('conditions: ', conditions)   
+                       
                 }
 
+                console.log('conditions: ', conditions)
                 UserModel.find(conditions , '_id name imageUrl designation skills bio education address company industry services mentorRating hourlyRate')
                     .populate('skills', 'name')
                     .populate('industry', 'name')
