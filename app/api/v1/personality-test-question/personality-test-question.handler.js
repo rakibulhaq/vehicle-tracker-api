@@ -150,8 +150,12 @@ class PersonalityTestQuestionHandler{
     }
     getAllPersonalityTestQuestion(req, callback){
         return new Promise((resolve, reject)=>{
+            let conditions = {};
+            if(typeof req.query.testId != 'undefined'){
+                conditions['testId'] = req.query.testId;
+            }
            
-                PersonalityTestQuestionModel.find({}, (err , docs)=>{
+                PersonalityTestQuestionModel.find(conditions, (err , docs)=>{
                     if(err){
                         reject(err);
     

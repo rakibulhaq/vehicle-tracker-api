@@ -6,6 +6,7 @@ const optionSchema = new Schema({
     isCorrect : Boolean
 });
 const PersonalityTestQuestionSchema = new Schema({
+    testId: {type: ObjectId, ref: 'personality-test'},
     question: String, 
     answerType: {type: String , default: "yes-no"},
     answers: [optionSchema],

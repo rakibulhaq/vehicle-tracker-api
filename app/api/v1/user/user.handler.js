@@ -225,7 +225,7 @@ class UserHandler {
 
             }
             else if (typeof req.query.user_id != 'undefined' && req.query.operation == 'DetailUserData') {
-                UserModel.find({ _id: req.query.user_id }, '_id userName name imageUrl bio education employmentStatus university skills company designation address email phone', (err, docs) => {
+                UserModel.find({ _id: req.query.user_id }, '_id userName name imageUrl bio education employmentStatus university skills company designation address email phone recommendations references topSkills experience', (err, docs) => {
                     if (err) {
                         reject(err);
 

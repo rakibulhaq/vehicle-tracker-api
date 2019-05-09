@@ -2,7 +2,7 @@ let mongoose = require('mongoose');
 let Schema = mongoose.Schema;
 let ObjectId = mongoose.Schema.Types.ObjectId;
 
-const CareerTestSchema = new Schema({
+const PersonalityTestSchema = new Schema({
     title: String, 
     description: String,
     imagePath: String,
@@ -10,10 +10,10 @@ const CareerTestSchema = new Schema({
     createdBy: {type: ObjectId, ref: 'user'}
 });
 
-CareerTestSchema.methods.toJSON = function(){
+PersonalityTestSchema.methods.toJSON = function(){
     let object = this.toObject();
     delete object.__v;
     return object;
 }
 
-module.exports.CareerTestModel = mongoose.model('Career-Test', CareerTestSchema);
+module.exports.PersonalityTestModel = mongoose.model('personality-Test', PersonalityTestSchema);

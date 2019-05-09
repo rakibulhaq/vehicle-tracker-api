@@ -154,11 +154,17 @@ class PersonalityTestResultHandler{
     }
     getAllPersonalityTestResult(req, callback){
         return new Promise((resolve, reject)=>{
-           
-                PersonalityTestResultModel.find({}, (err , docs)=>{
+            let conditions = {};
+            if(typeof req.query.userId != 'undefined'){
+                conditions['userId'] = req.query.userId;
+            }
+
+            if(typeof req.query.testId != 'undefined'){
+                conditions['testId'] = req.query.testId;
+            }
+                PersonalityTestResultModel.find(conditions, (err , docs)=>{
                     if(err){
                         reject(err);
-    
                     }
                     else{
                         resolve(docs);
