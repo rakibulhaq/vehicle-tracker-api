@@ -289,21 +289,26 @@ class UserHandler {
             }
             else if (req.query.operation == 'SpecificMentorData') {
 
-                //split industries and wrap them in an array by casting to mongo id
-                let someIndustries = req.query.industries.split(',')
-                let industryArray = someIndustries.map((eachElem) => {
-                    return new ObjectId(eachElem)
-                });
-                let conditions = { isMentoring: true, industry : { $elemMatch: {$in: industryArray} }  };
+                let conditions = { isMentoring: true };
+
+                if(typeof req.query.industries != 'undefined'){
+                    //split industries and wrap them in an array by casting to mongo id
+                    let someIndustries = req.query.industries.split(',')
+                    let industryArray = someIndustries.map((eachElem) => {
+                        return new ObjectId(eachElem)
+                    });
+                    conditions["industry"] = { $elemMatch: {$in: industryArray} };
+                }
+                
+                
 
                 if(typeof req.query.pricerange != 'undefined'){
                     let priceRange = req.query.pricerange.split('-')
                     conditions['$and'] =  [ {hourlyRate : {$gte: parseInt(priceRange[0])}}, {hourlyRate : {$lte: parseInt(priceRange[1])}}];
-                    console.log('conditions: ', conditions)
-                    
+                    // console.log('conditions: ', conditions)   
                 }
 
-                UserModel.find(conditions , '_id name imageUrl designation skills bio address company industry services mentorRating hourlyRate')
+                UserModel.find(conditions , '_id name imageUrl designation skills bio education address company industry services mentorRating hourlyRate')
                     .populate('skills', 'name')
                     .populate('industry', 'name')
                     .populate('services', 'name')
