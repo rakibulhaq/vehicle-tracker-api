@@ -297,7 +297,7 @@ class UserHandler {
                     let industryArray = someIndustries.map((eachElem) => {
                         return new ObjectId(eachElem)
                     });
-                    conditions["industry"] = { $elemMatch: {$in: industryArray} };
+                    conditions['industry'] = { $elemMatch: {$in: industryArray} };
                 }
                 
                 

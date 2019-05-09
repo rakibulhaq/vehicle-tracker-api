@@ -1,32 +1,32 @@
-const MessageModel = require('./message.model').MessageModel;
+const NotificationModel = require('./notification.model').NotificationModel;
 const ValidationError = require(APP_ERROR_PATH + 'validation');
 const NotFoundError = require(APP_ERROR_PATH + 'not_found');
 const AlreadyExistsError = require(APP_ERROR_PATH + 'already_exists');
-class MessageHandler{
+class NotificationHandler{
     constructor(){
         this._validator = require('validator');
     }
 
-    createMessageInfo(req, callback){
+    createNotificationInfo(req, callback){
         let data = req.body;
-        let MessageOne = new MessageModel({
-            sessionId: data.sessionId,
-            text: data.text, 
-            sentBy: data.sentBy
+        let NotificationOne = new NotificationModel({
+            userId: data.userId,
+            text: data.text,
+            type: data.type
         });
 
         return new Promise((resolve, reject)=>{
-            MessageModel.find({name : data.name}, (err, someMessage)=>{
+            NotificationModel.find({name : data.name}, (err, someNotification)=>{
                 if(err){
                     reject(err);
                 }
                 else{
-                    if(someMessage.length){
-                        reject(new AlreadyExistsError('Message Already Exists'));
+                    if(someNotification.length){
+                        reject(new AlreadyExistsError('Notification Already Exists'));
 
                     }
                     else{
-                        resolve(MessageOne);
+                        resolve(NotificationOne);
                     }
                 }
 
@@ -46,40 +46,40 @@ class MessageHandler{
 
     }
 
-    getMessageInfo(req, callback){
-        let MessageId = req.params.id;
+    getNotificationInfo(req, callback){
+        let NotificationId = req.params.id;
         req.checkParams('id', 'invalid id provided').isMongoId();
         req.getValidationResult()
         .then((result)=>{
             if(!result.isEmpty()){
-                let errorMessages = result.array().map((elem)=>{
+                let errorNotifications = result.array().map((elem)=>{
                     return elem.msg;
                 });
 
-                throw new ValidationError("There are some validation errors: "+ errorMessages);
+                throw new ValidationError("There are some validation errors: "+ errorNotifications);
 
             }
             else{
                 return new Promise((resolve, reject)=>{
-                    MessageModel.findById( MessageId, (err, MessageOne)=>{
+                    NotificationModel.findById( NotificationId, (err, NotificationOne)=>{
                         if(err){
                             reject(err);
 
                         }
                         else{
-                            if(!MessageOne){
-                                return new NotFoundError("Message Not found");
+                            if(!NotificationOne){
+                                return new NotFoundError("Notification Not found");
                             }
                             else{
-                                resolve(MessageOne);
+                                resolve(NotificationOne);
                             }
                         }
                     });
                 });
             }
         })
-        .then((MessageOne)=>{
-            callback.onSuccess(MessageOne);
+        .then((NotificationOne)=>{
+            callback.onSuccess(NotificationOne);
         })
         .catch((error)=>{
             callback.onError(error);
@@ -87,12 +87,12 @@ class MessageHandler{
 
 
     }
-    updateMessage(req, callback){
+    updateNotification(req, callback){
         let data = req.body;
 
         return new Promise((resolve, reject)=>{
             if(typeof req.query.seenStatus != 'undefined'){
-                MessageModel.findOneAndUpdate({_id : req.params.id}, {seenStatus : req.query.seenStatus}, {new : true}, (err, saved)=>{
+                NotificationModel.findOneAndUpdate({_id : req.params.id}, {seenStatus : req.query.seenStatus}, {new : true}, (err, saved)=>{
                     if(err){
                         reject(err);
     
@@ -104,7 +104,7 @@ class MessageHandler{
 
             }
             else {
-                MessageModel.findOneAndUpdate({_id : req.params.id}, data, {new : true}, (err, saved)=>{
+                NotificationModel.findOneAndUpdate({_id : req.params.id}, data, {new : true}, (err, saved)=>{
                     if(err){
                         reject(err);
     
@@ -125,50 +125,55 @@ class MessageHandler{
         });
 
     }
-    deleteMessage(req, callback){
+    deleteNotification(req, callback){
         let id = req.params.id;
 
         req.checkParams('id', 'Invalid Id provided').isMongoId();
         req.getValidationResult()
         .then((result)=>{
             if(!result.isEmpty()){
-                let errorMessages = result.array().map((elem)=>{
+                let errorNotifications = result.array().map((elem)=>{
                     return elem.msg;
                 });
 
-                throw new Error("There has been an error during deleting Message: " + errorMessages);
+                throw new Error("There has been an error during deleting Notification: " + errorNotifications);
 
             }
             else{
                 return new Promise((resolve, reject)=>{
-                    MessageModel.findOneAndDelete(id, (err, MessageOne)=>{
+                    NotificationModel.findOneAndDelete(id, (err, NotificationOne)=>{
                         if(err){
                             reject(err);
                         }
                         else{
-                            resolve(MessageOne);
+                            resolve(NotificationOne);
                         }
                     });
                 });  
             }
         })
-        .then((MessageOne)=>{
-            callback.onSuccess(MessageOne);
+        .then((NotificationOne)=>{
+            callback.onSuccess(NotificationOne);
         })
         .catch((error)=>{
             callback.onError(error);
         });
 
     }
-    getAllMessage(req, callback){
+    getAllNotification(req, callback){
         return new Promise((resolve, reject)=>{
-            //smses of a user both seen and unseen and all messages
+            let condition = {};
+            //smses of a user both seen and unseen and all Notifications
             if(typeof req.query.userId != 'undefined'){
-                let condition = {sentBy : req.query.userId};
+
+                condition['userId'] = req.query.userId;
+
                 if(typeof req.query.status != 'undefined'){
-                    condition = {sentBy: req.query.userId, seenStatus: req.query.status};
+
+                    condition['seenStatus'] = req.query.status;
                 }
-                MessageModel.find(condition)
+
+                NotificationModel.find(condition)
                 .sort({'sentTime' : req.query.order})
                 .skip(parseInt(req.query.limit) * (parseInt(req.query.page) - 1))
                 .limit(parseInt(req.query.limit))
@@ -184,7 +189,7 @@ class MessageHandler{
 
             }
             else{
-                MessageModel.find({}, (err , docs)=>{
+                NotificationModel.find({}, (err , docs)=>{
                     if(err){
                         reject(err);
     
@@ -205,4 +210,4 @@ class MessageHandler{
         });
     }
 }
-module.exports = MessageHandler;
+module.exports = NotificationHandler;

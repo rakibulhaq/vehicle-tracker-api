@@ -30,5 +30,6 @@ router.use('/images', require(ROUTE_V1_PATH + 'image'));
 router.use('/user-sessions', require(ROUTE_V1_PATH + 'user-session'));
 router.use('/messages', require(ROUTE_V1_PATH + 'message'));
 router.use('/services', require(ROUTE_V1_PATH + 'service'));
+router.use('/notifications', require(ROUTE_V1_PATH + 'notification'));
 
 module.exports = router;
