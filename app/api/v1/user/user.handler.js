@@ -303,7 +303,7 @@ class UserHandler {
                     
                 }
 
-                UserModel.find(conditions , '_id name imageUrl designation skills address company industry services mentorRating hourlyRate')
+                UserModel.find(conditions , '_id name imageUrl designation skills bio address company industry services mentorRating hourlyRate')
                     .populate('skills', 'name')
                     .populate('industry', 'name')
                     .populate('services', 'name')
