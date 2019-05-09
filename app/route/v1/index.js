@@ -31,5 +31,7 @@ router.use('/user-sessions', require(ROUTE_V1_PATH + 'user-session'));
 router.use('/messages', require(ROUTE_V1_PATH + 'message'));
 router.use('/services', require(ROUTE_V1_PATH + 'service'));
 router.use('/notifications', require(ROUTE_V1_PATH + 'notification'));
-
+router.use('/personality-tests', require(ROUTE_V1_PATH + 'personality-test'));
+router.use('/personality-test-questions', require(ROUTE_V1_PATH + 'personality-test-question'));
+router.use('/personality-test-results', require(ROUTE_V1_PATH + 'personality-test-result'));
 module.exports = router;
