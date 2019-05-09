@@ -261,6 +261,35 @@ class UserHandler {
                     });
 
             }
+            else if (req.query.operation == 'RandomMentorData') {
+
+                let limit = 10;
+                if (req.query.limit) {
+                    limit = parseInt(req.query.limit);
+                }
+                let conditions = {isMentoring: true};
+                if(typeof req.query.pricerange != 'undefined'){
+                    let priceRange =  req.query.pricerange.split('-')
+                    conditions = {isMentoring : true, $and : [ { hourlyRate : {$gte: parseInt(priceRange[0])}}, { hourlyRate : {$lte: parseInt(priceRange[1])}}]}
+                }
+
+                UserModel.find(conditions, '_id name imageUrl designation skills address bio company industry services mentorRating hourlyRate')
+                    .populate('skills', 'name')
+                    .populate('industry', 'name')
+                    .populate('services', 'name')
+                    .sort({ 'name': 'asc' })
+                    .skip((parseInt(req.query.page) - 1) * parseInt(req.query.limit))
+                    .limit(limit)
+                    .exec((err, docs) => {
+                        if (!err) {
+                            resolve(docs);
+                        }
+                        else {
+                            reject(err);
+                        }
+                    });
+
+            }
             else if (req.query.operation == 'BasicMentorData' && typeof req.query.mentor_id != 'undefined') {
 
                 UserModel.find({_id: req.query.mentor_id}, '_id name imageUrl designation skills address bio company industry services mentorRating hourlyRate')
