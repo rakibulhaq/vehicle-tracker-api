@@ -1,6 +1,7 @@
 /**
- * Api: for careerki tool 
+ * Api: for vehicle tracking 
  * entry point for the api service
+ * Developed by : Rakibul Haq Tarafdar
  */
 global.APP_ROOT_PATH = __dirname + '/app/';
 
@@ -12,24 +13,22 @@ const express = require('express');
 const app = express();
 
 const bodyParser = require('body-parser');
-const mongoose = require('mongoose');
+//use mysql
+const mysql = require('mysql');
+
 const routes = require(APP_ROUTE_PATH);
 const ValidationManager = require(APP_MANAGER_PATH + 'validation');
-const authManager = require(APP_MANAGER_PATH + 'auth');
 const validationManager = new ValidationManager();
 
-mongoose.Promise = global.Promise;
-mongoose.connect(config.db.MONGO_DB_URL, {useNewUrlParser : true});
+const dbConnection = mysql.createConnection(config.db);
+
+dbConnection.connect()
 
 const cors = require('cors');
 
 app.use(cors());
 
-app.use('/static', express.static(global.APP_ROOT_PATH + 'assets/'));
-
 app.use(bodyParser.json());
-
-app.use(authManager.providePassport().initialize());
 
 app.use(validationManager.provideDefaultValidator());
 

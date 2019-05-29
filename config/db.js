@@ -1,3 +1,6 @@
 module.exports = {
-    MONGO_DB_URL : 'mongodb://127.0.0.1:27017/db_careerkitoolapi'
+    host: 'localhost',
+    user: 'root',
+    password: '',
+    database: 'vehicle_trackerdb'
 }

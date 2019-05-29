@@ -1,6 +1,5 @@
 # rest-api-server
-REST API template for Different Projects
+REST API template for Vehicle Tracker
 
 
-This project is to showcase the rest api server with following the Separation of Concern Design Prinicipal.
-It has jwt authentication, image uploading end point and some demo routes.
+#Node js Express, MySQL

@@ -1,1 +1,1 @@
-This folder will hold all the assets that is required for the mycareerki app
+This folder will hold all the assets that is required for holding assets
